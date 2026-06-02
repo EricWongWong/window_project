@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}知識庫{% endblock %}
+{% block content %}
+<h1>驗窗知識庫</h1>
+<hr>
+<div class="accordion" id="faq">
+    <div class="accordion-item">
+        <h2 class="accordion-header"><button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#q1">什麼是強制驗窗計劃？</button></h2>
+        <div id="q1" class="accordion-collapse collapse show"><div class="accordion-body">根據《建築物條例》第123章，樓齡達10年或以上的私人樓宇須每5年進行一次訂明檢驗。</div></div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#q2">收到驗窗通知後如何處理？</button></h2>
+        <div id="q2" class="accordion-collapse collapse"><div class="accordion-body">委託註冊承建商上門檢驗，如需維修則施工，最後QP提交報告。</div></div>
+    </div>
+</div>
+{% endblock %}

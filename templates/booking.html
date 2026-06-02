@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}線上預約{% endblock %}
+{% block content %}
+<h1>線上預約</h1>
+<hr>
+<form method="post" action="/booking/">
+    {% csrf_token %}
+    <div class="mb-3"><label>姓名 *</label><input type="text" name="name" class="form-control" required></div>
+    <div class="mb-3"><label>電話 *</label><input type="tel" name="phone" class="form-control" required></div>
+    <div class="mb-3"><label>地址 *</label><input type="text" name="address" class="form-control" required></div>
+    <div class="mb-3"><label>預約日期 *</label><input type="date" name="booking_date" class="form-control" required></div>
+    <div class="mb-3"><label>服務類型</label>
+        <select name="service_type" class="form-control">
+            <option value="inspection">強制驗窗</option>
+            <option value="repair">鋁窗維修</option>
+            <option value="waterproof">防水工程</option>
+        </select>
+    </div>
+    <div class="mb-3"><label>備註</label><textarea name="remark" class="form-control"></textarea></div>
+    <button type="submit" class="btn btn-primary">提交預約</button>
+</form>
+{% endblock %}
