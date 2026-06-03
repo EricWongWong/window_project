@@ -13,7 +13,8 @@ def register_view(request):
             login(request, user)  # 註冊成功後自動登錄
             messages.success(request, "註冊成功！歡迎加入。")
             # ✅ 精準修復：註冊成功後也必須加上命名空間前綴，防止 NoReverseMatch
-            return redirect('member:dashboard')  
+            #return redirect('member:dashboard')
+            return redirect('/')
         else:
             messages.error(request, "註冊失敗，請檢查輸入信息。")
     else:
@@ -31,7 +32,8 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"歡迎回來，{username}！")
-                return redirect('member:dashboard')  # ✅ 設定正確
+                #return redirect('member:dashboard')  # ✅ 設定正確
+                return redirect('/')
         messages.error(request, "用戶名或密碼錯誤。")
     else:
         form = AuthenticationForm()
@@ -41,6 +43,7 @@ def login_view(request):
 @login_required
 def dashboard(request):
     return render(request, 'member/dashboard.html')
+
 
 # 4. 登出視圖
 

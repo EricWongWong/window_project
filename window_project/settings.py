@@ -113,7 +113,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # ✅ 修改後：直接使用絕對路徑，確保萬無一失
-LOGIN_REDIRECT_URL = '/member/dashboard/'
+#LOGIN_REDIRECT_URL = '/member/dashboard/'
+# login redirect to home page
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/member/login/'
 

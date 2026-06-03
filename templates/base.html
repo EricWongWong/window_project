@@ -39,7 +39,7 @@
                     {% if user.is_authenticated %}
                         <!-- 當用戶「已登入」時顯示 -->
                         <li class="nav-item">
-                            <a class="nav-link text-warning fw-bold" href="{% url 'member:dashboard' %}">👤 {{ user.username }} 的控制台</a>
+                            <span class="nav-link text-warning fw-bold" href="{% url 'member:dashboard' %}">👤 {{ user.username }} 的控制台</span>
                         </li>
                         <!-- 安全的 POST 登出按鈕（使用你配置好的免 CSRF 實體硬路徑） -->
                         <li class="nav-item">
