@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}太古城 - 全屋鋁窗防水工程案例{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <!-- 導航連結 -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">首頁</a></li>
+            <li class="breadcrumb-item"><a href="/cases/">工程案例</a></li>
+            <li class="breadcrumb-item active" aria-current="page">太古城 - 全屋鋁窗防水</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4">太古城 - 全屋鋁窗防水工程</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <!-- 主要圖片區 -->
+            <div id="caseCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{% static 'images/taikoo-1.jpg' %}" class="d-block w-100" alt="太古城鋁窗防水工程1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{% static 'images/taikoo-2.jpg' %}" class="d-block w-100" alt="太古城鋁窗防水工程2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{% static 'images/taikoo-3.jpg' %}" class="d-block w-100" alt="太古城鋁窗防水工程3">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#caseCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#caseCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">工程概要</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>地點：</strong>太古城</li>
+                        <li><strong>工程類型：</strong>全屋鋁窗防水</li>
+                        <li><strong>施工內容：</strong>更換全屋防水膠邊、窗框打膠</li>
+                        <li><strong>工程時長：</strong>2天</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 工程描述 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3>工程詳情</h3>
+            <p>此單位為太古城高層單位，樓齡超過30年，窗戶老化導致嚴重滲水問題。我們的團隊進行了全面檢查，發現窗框與牆身之間的密封膠已老化龜裂，防水膠邊失去彈性。工程包括拆除舊有老化物料、重新打膠及更換高品質TPV防水膠邊，徹底解決滲水問題。完工後進行了灑水測試，確認再無滲漏跡象。</p>
+            <h3>技術要點</h3>
+            <ul>
+                <li>選用優質中性玻璃膠，避免腐蝕鋁窗表面</li>
+                <li>更換符合屋宇署標準的TPV防水膠邊</li>
+                <li>施工後進行嚴格灑水測試，確保防水效果</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 按鈕組 -->
+    <div class="text-center mt-5">
+        <a href="/cases/" class="btn btn-secondary">← 返回案例列表</a>
+        <a href="/booking/" class="btn btn-primary ms-3">立即預約</a>
+    </div>
+</div>
+{% endblock %}

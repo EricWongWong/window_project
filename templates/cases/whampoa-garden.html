@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}黃埔花園 - 強制驗窗工程案例{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <!-- 導航連結 -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">首頁</a></li>
+            <li class="breadcrumb-item"><a href="/cases/">工程案例</a></li>
+            <li class="breadcrumb-item active" aria-current="page">黃埔花園 - 強制驗窗</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4">黃埔花園 - 強制驗窗及窗鉸更換工程</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <!-- 主要圖片區 -->
+            <div id="caseCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="{% static 'images/whampoa-1.jpg' %}" class="d-block w-100" alt="黃埔花園強制驗窗工程1">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{% static 'images/whampoa-2.jpg' %}" class="d-block w-100" alt="黃埔花園強制驗窗工程2">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{% static 'images/whampoa-3.jpg' %}" class="d-block w-100" alt="黃埔花園強制驗窗工程3">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#caseCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#caseCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">工程概要</h5>
+                    <ul class="list-unstyled">
+                        <li><strong>地點：</strong>黃埔花園</li>
+                        <li><strong>工程類型：</strong>強制驗窗及窗鉸更換</li>
+                        <li><strong>施工內容：</strong>更換7副不鏽鋼窗鉸</li>
+                        <li><strong>工程時長：</strong>3天</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 工程描述 -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3>工程詳情</h3>
+            <p>業主收到屋宇署強制驗窗通知，委託本公司進行訂明檢驗。合資格人士(QP)上門檢驗後，發現窗鉸出現嚴重鏽蝕，需進行更換以符合安全標準。工程包括拆除舊有鏽蝕窗鉸、安裝7副全新304不鏽鋼窗鉸、更換不鏽鋼螺絲及拉釘，確保窗扇穩固。完工後由QP覆檢並簽署MWI 2表格，代為提交屋宇署，成功解除法定命令。</p>
+            <h3>技術要點</h3>
+            <ul>
+                <li>採用304不鏽鋼窗鉸，厚度2.5mm，符合屋宇署標準</li>
+                <li>使用直徑5mm不鏽鋼螺絲，加強固定</li>
+                <li>安裝前後在螺絲孔口塗上密封劑，防止雙金屬效應侵蝕</li>
+                <li>全程由註冊QP監督，確保符合法例要求</li>
+            </ul>
+            <div class="alert alert-info mt-3">
+                <strong>📌 屋宇署強制驗窗合規要點：</strong> 根據《建築物條例》第123章，更換窗鉸必須使用符合規格的不鏽鋼配件，並由註冊承建商施工，完工後由QP簽署證明書提交屋宇署。
+            </div>
+        </div>
+    </div>
+
+    <!-- 按鈕組 -->
+    <div class="text-center mt-5">
+        <a href="/cases/" class="btn btn-secondary">← 返回案例列表</a>
+        <a href="/booking/" class="btn btn-primary ms-3">立即預約</a>
+    </div>
+</div>
+{% endblock %}

@@ -43,3 +43,15 @@ def booking(request):
         messages.success(request, '預約成功！我們會盡快與你聯絡。')
         return redirect('booking')
     return render(request, 'booking.html')
+
+# 太古城案例詳情頁
+def taikoo_shing(request):
+    return render(request, 'cases/Taikoo_Shing.html')
+
+# 黃埔花園案例詳情頁
+def whampoa_garden(request):
+    return render(request, 'cases/Whampoa_Garden.html')
+
+# 麗港城案例詳情頁
+def laguna_city(request):
+    return render(request, 'cases/Laguna_City.html')

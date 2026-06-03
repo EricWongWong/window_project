@@ -28,3 +28,15 @@ def cases(request):
 
 def knowledge(request):
     return render(request, 'knowledge.html') # 或者是你具体的功能模版
+
+# 🔥 【終極標準化修正】
+
+def taikoo_shing(request):
+    # ✅ 改為純小寫與橫槓，100% 免疫 Linux 大小寫地雷
+    return render(request, 'cases/taikoo-shing.html')
+
+def whampoa_garden(request):    
+    return render(request, 'cases/whampoa-garden.html')
+
+def laguna_city(request):
+    return render(request, 'cases/laguna-city.html')
