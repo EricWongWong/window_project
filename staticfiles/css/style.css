@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
+}
+
+
+html, body {
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+
+.navbar {
+    background-color: #003366 !important;
+    padding: 15px 0;
+    position: relative;
+}
+
+
+.navbar .nav-link {
+    color: #ffffff !important;
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+
+.navbar .nav-link:hover {
+    color: #ffcc00 !important;
+}
+
+
+.navbar-brand {
+    color: #ffffff !important;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+
+.burger-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+
+.burger-btn span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: white;
+    margin: 5px 0;
+    transition: 0.3s;
+}
+
+
+#main-menu {
+    display: flex;
+}
+
+
+@media (max-width: 992px) {
+    .burger-btn {
+        display: block;
+    }
+    #main-menu {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        background: #003366;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        padding: 15px;
+    }
+    #main-menu.active {
+        display: block !important;
+    }
+}
+
+
+.content {
+    min-height: 700px;
+    padding: 40px 0;
+}
+
+
+h1, h2, h3, h4 {
+    color: #003366;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+
+hr {
+    border-top: 2px solid #003366;
+    opacity: 0.2;
+    margin-bottom: 30px;
+}
+
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+
+.card h3 {
+    color: #003366;
+    font-weight: bold;
+}
+
+
+.btn-primary {
+    background-color: #003366;
+    border: none;
+}
+
+
+.btn-danger {
+    background-color: #cc0000;
+    border: none;
+}
+
+
+.form-control {
+    border-radius: 6px;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+
+footer {
+    background-color: #002244;
+    color: #fff;
+    padding: 40px 0;
+    margin-top: 50px;
+    text-align: center;
+}

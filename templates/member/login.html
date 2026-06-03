@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}會員登入 - 香港驗窗維修工程{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card p-4 mt-5">
+            <h2 class="text-center mb-4" style="color: #003366;">會員登入</h2>
+            
+            <!-- 顯示 Django 內置的錯誤提示信息（如密碼錯誤） -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} text-center" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <!-- 使用 Bootstrap 樣式渲染內置表單 -->
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold" style="color: #003366;">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary w-100 mt-3" style="background-color: #003366;">安全登入</button>
+            </form>
+            
+            <div class="text-center mt-4">
+                <p class="mb-0">還沒有帳號？ <a href="{% url 'member:register' %}" class="fw-bold" style="color: #003366;">立即註冊</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* 讓 Django 原生表單輸入框完美適應 Bootstrap */
+    form input[type="text"], form input[type="password"] {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+</style>
+{% endblock %}

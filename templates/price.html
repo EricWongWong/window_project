@@ -1,19 +1,101 @@
 {% extends 'base.html' %}
-{% block title %}價目表{% endblock %}
+{% load static %}
+
+{% block title %}鋁窗配件及價目表{% endblock %}
+
 {% block content %}
-<h1>服務價目表</h1>
+<h1>鋁窗配件及服務價目表</h1>
 <hr>
-<p class="text-muted">以下價格僅供參考，實際報價將視現場情況而定。</p>
-<table class="table table-bordered table-striped">
-    <thead class="table-primary">
-        <tr><th>服務項目</th><th>內容說明</th><th>參考價格 (HKD)</th></tr>
-    </thead>
-    <tbody>
-        <tr><td>強制驗窗 (訂明檢驗)</td><td>合資格人士上門檢驗</td><td>$500 - $800 / 單位</td></tr>
-        <tr><td>更換窗鉸</td><td>不鏽鋼窗鉸 (連工包料)</td><td>$350 / 副起</td></tr>
-        <tr><td>更換手把/七字鎖</td><td>更換鋁窗手把</td><td>$150 / 個起</td></tr>
-        <tr><td>防水膠邊更換</td><td>更換全窗防水膠邊</td><td>$250 / 窗扇起</td></tr>
-    </tbody>
-</table>
-<div class="alert alert-info mt-3">所有工程完成後提供 3 年結構保養</div>
+<p class="text-muted">本公司所有配件均符合屋宇署強制驗窗計劃要求，使用優質304不鏽鋼材料，並獲國際品質認證機構SGS 5萬次開合無損嚴格測試認證，品質受到肯定。<br>以下價格僅供參考，實際報價將視現場情況而定，所有費用均會於工程開始前詳細列明，絕無隱藏收費。</p>
+
+<!-- 📷 圖片區域 -->
+<div class="row mb-5">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <img src="{% static 'images/price-1.avif' %}" class="card-img-top" alt="鋁窗執手（刁銘）系列">
+            <div class="card-body">
+                <h5 class="card-title text-primary">鋁窗執手（刁銘）系列</h5>
+                <p class="card-text">型號：LK-01、LK-02、LK-05等。<br>
+                材質：合金精鑄，真空鍍硬物，表面不易刮花。<br>
+                特點：設有單頭及雙頭執手選擇，適用於各類掩窗及推拉窗。經400度高溫焗漆處理，耐用抗腐蝕。<br>
+                符合屋宇署強制驗窗計劃要求，可用作更換老化或損壞的手掣，確保窗戶能正常開關及鎖緊。</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <img src="{% static 'images/price-2.avif' %}" class="card-img-top" alt="304不鏽鋼窗撐（方槽）系列">
+            <div class="card-body">
+                <h5 class="card-title text-primary">304不鏽鋼窗撐（方槽）系列</h5>
+                <p class="card-text">尺寸：8吋、10吋、12吋、14吋。<br>
+                材質：304不鏽鋼，厚度2.0mm至3.0mm可選。<br>
+                特點：專為強制驗窗計劃而設，配有可調校的定位滑塊，能控制窗戶的開啟角度及穩固性。<br>
+                另備有304限位窗撐、伸縮限位窗撐及平行窗撐，適合不同窗戶類型的安裝需求。</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <img src="{% static 'images/price-3.avif' %}" class="card-img-top" alt="304不鏽鋼窗鉸（曲面/平面）">
+            <div class="card-body">
+                <h5 class="card-title text-primary">304不鏽鋼窗鉸（曲面／平面）</h5>
+                <p class="card-text">尺寸：8吋、10吋、12吋、14吋，另可訂製18吋至30吋。<br>
+                材質：304不鏽鋼，厚度2.0mm、2.5mm、3.0mm可選。<br>
+                特點：曲面及平面設計，適合各種窗戶環境。迎合強制驗窗要求，採用加寬加厚底座配合雙排鉚釘固定設計，有效分散應力，確保窗扇長期不變形、不下墜。<br>
+                經正確安裝、正常使用並定期保養，服務年限可達12至15年。</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+            <img src="{% static 'images/price-4.avif' %}" class="card-img-top" alt="屋宇署窗鉸安裝規格圖解">
+            <div class="card-body">
+                <h5 class="card-title text-primary">屋宇署窗鉸安裝規格圖解</h5>
+                <p class="card-text">根據香港屋宇署《註冊承建商作業備考47》附錄B附件I之技術要求：<br>
+                窗扇闊度不應超過700毫米，以免窗扇承受過大的風力或因窗扇過重而導致窗鉸變形。<br>
+                窗鉸長度須達窗扇闊度的60%以上，並使用直徑不少於4.8毫米的不鏽鋼鉚釘或直徑不少於5毫米的不鏽鋼螺絲。<br>
+                安裝螺絲前必須在孔口塗上含瀝青的油料或密封劑，以減少雙金屬效應引起的侵蝕，安裝後亦須在螺絲頂部重複塗抹以加強抗蝕能力。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 價格表格 -->
+<h2>鋁窗配件及服務價目參考</h2>
+<hr>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead class="table-primary">
+            <tr><th>服務項目</th><th>內容說明</th><th>參考價格 (HKD)</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>強制驗窗（訂明檢驗）</td><td>合資格人士上門檢驗，提供屋宇署認可報告</td><td>$500 - $800 / 單位</td></tr>
+            <tr><td>更換304不鏽鋼窗鉸（2.5mm厚）</td><td>8-12吋連螺絲，連工包料，每扇窗上下為一對<br>
+                *3.0mm厚窗鉸每扇加$150</td><td>$350 / 扇起</td></tr>
+            <tr><td>更換七字開關手制</td><td>更換鋁窗手制（刁銘／七字）</td><td>$90 / 隻起</td></tr>
+            <tr><td>更換上下開關手制</td><td>更換鋁窗上下拉動式手制</td><td>$90 / 隻起</td></tr>
+            <tr><td>更換多點鎖手制</td><td>多點鎖定，增強保安效能</td><td>$350 / 隻起</td></tr>
+            <tr><td>更換不鏽鋼拉釘</td><td>每套12粒，配合窗鉸安裝使用</td><td>$130 / 套</td></tr>
+            <tr><td>更換防水膠邊（TPV內膠條）</td><td>抗氧化隔音防水TPV內膠條，每扇窗</td><td>$150 / 扇</td></tr>
+            <tr><td>更換防水膠邊（TPV外膠條）</td><td>抗氧化隔音防水TPV外膠條，每扇窗</td><td>$100 / 扇</td></tr>
+            <tr><td>代辦呈交屋宇署文件</td><td>一條龍服務，直接提交MWI 1或MWI 2表格</td><td>$300 / 次</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="alert alert-info mt-4">
+    <strong>📌 屋宇署強制驗窗技術要求：</strong>
+    <ul class="mt-2">
+        <li>鋁金屬切面的厚度不應少於 <strong>2 毫米</strong>；窗框切面的深度不應少於 <strong>38 毫米</strong>。</li>
+        <li>可開啟窗戶的闊度一般不應超過 <strong>700 毫米</strong>，以免令窗扇承受過大的風力或因窗扇過重而導致窗鉸變形。</li>
+        <li>不鏽鋼4桿形窗鉸的每支桿的厚度最少應為 <strong>2.5 毫米</strong>，窗鉸長度須達窗扇闊度的 <strong>60% 以上</strong>。</li>
+        <li>使用直徑不少於 <strong>4.8 毫米</strong>的不鏽鋼鉚釘或直徑不少於 <strong>5 毫米</strong>的不鏽鋼螺絲。</li>
+        <li>安裝前後須在螺絲孔口及頂部塗上含瀝青的油料或密封劑，以減少雙金屬效應引起的侵蝕。</li>
+    </ul>
+    <p class="mt-2 text-muted small">*以上價格及規格僅供參考，實際情況以現場報價及屋宇署最新指引為準。</p>
+</div>
+
+<div class="text-center mt-4">
+    <a href="/booking/" class="btn btn-primary btn-lg">📞 立即預約，免費上門報價</a>
+</div>
 {% endblock %}

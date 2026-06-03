@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}用戶登入 - 香港驗窗維修工程{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-5">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4">會員登入</h2>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <!-- 登入失敗時顯示紅框錯誤提示 -->
+                    {% if form.errors %}
+                        <div class="alert alert-danger">用戶名或密碼不正確，請重新輸入。</div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        <label class="form-label">用戶名 (Username)</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">密碼 (Password)</label>
+                        {{ form.password }}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 mb-3" style="background-color: #003366;">立即登入</button>
+                </form>
+                
+                <div class="text-center">
+                    <p class="mb-0">還沒有帳號？ <a href="{% url 'register' %}">立即註冊</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

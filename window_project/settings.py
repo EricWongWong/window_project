@@ -98,7 +98,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hant'
 TIME_ZONE = 'Asia/Hong_Kong'
 USE_I18N = True
 USE_TZ = True
@@ -107,6 +107,17 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# 🔥 【核心修復】新增這一行，告訴 Django 收集檔案時的集中存放目錄（通常命名為 staticfiles）
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# ✅ 修改後：直接使用絕對路徑，確保萬無一失
+LOGIN_REDIRECT_URL = '/member/dashboard/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/member/login/'
+
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
