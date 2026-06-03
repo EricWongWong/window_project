@@ -18,19 +18,20 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-
-]
-
-
-APPLICATION_APP = [
     'core',
     'booking',
     'member',
 
 ]
 
+
+APPLICATION_APP = [
+
+
+]
+
 THIRD_PARTY_APPS = [ 
-    'debug_toolbar', 'widget_tweaks', 'taggit',
+'widget_tweaks', 'taggit',
 
 ]
 
@@ -60,6 +61,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.static',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -113,9 +115,6 @@ INTERNAL_IPS = [
     '127.0.0.1',
     # ...
 ]
-
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-MEDIA_URL = '/media/'
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',

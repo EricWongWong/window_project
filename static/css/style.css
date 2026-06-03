@@ -5,11 +5,13 @@
     font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
 }
 
+
 html, body {
     background-color: #f8f9fa;
     color: #333;
     line-height: 1.6;
 }
+
 
 .navbar {
     background-color: #003366 !important;
@@ -17,21 +19,25 @@ html, body {
     position: relative;
 }
 
+
 .navbar .nav-link {
     color: #ffffff !important;
     font-size: 16px;
     margin: 0 10px;
 }
 
+
 .navbar .nav-link:hover {
     color: #ffcc00 !important;
 }
+
 
 .navbar-brand {
     color: #ffffff !important;
     font-weight: bold;
     font-size: 22px;
 }
+
 
 .burger-btn {
     display: none;
@@ -40,6 +46,7 @@ html, body {
     cursor: pointer;
     padding: 10px;
 }
+
 
 .burger-btn span {
     display: block;
@@ -50,9 +57,11 @@ html, body {
     transition: 0.3s;
 }
 
+
 #main-menu {
     display: flex;
 }
+
 
 @media (max-width: 992px) {
     .burger-btn {
@@ -73,10 +82,12 @@ html, body {
     }
 }
 
+
 .content {
     min-height: 700px;
     padding: 40px 0;
 }
+
 
 h1, h2, h3, h4 {
     color: #003366;
@@ -84,11 +95,13 @@ h1, h2, h3, h4 {
     margin-bottom: 20px;
 }
 
+
 hr {
     border-top: 2px solid #003366;
     opacity: 0.2;
     margin-bottom: 30px;
 }
+
 
 .card {
     border: none;
@@ -98,31 +111,37 @@ hr {
     margin-bottom: 20px;
 }
 
+
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
+
 
 .card h3 {
     color: #003366;
     font-weight: bold;
 }
 
+
 .btn-primary {
     background-color: #003366;
     border: none;
 }
+
 
 .btn-danger {
     background-color: #cc0000;
     border: none;
 }
 
+
 .form-control {
     border-radius: 6px;
     padding: 12px;
     border: 1px solid #ddd;
 }
+
 
 footer {
     background-color: #002244;
