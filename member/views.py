@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.urls import reverse # ✅Added for named URLs
 
 # 1. 註冊視圖
 def register_view(request):
@@ -14,7 +15,8 @@ def register_view(request):
             messages.success(request, "註冊成功！歡迎加入。")
             # ✅ 精準修復：註冊成功後也必須加上命名空間前綴，防止 NoReverseMatch
             #return redirect('member:dashboard')
-            return redirect('/')
+            #return redirect('/')
+            return redirect(reverse('home')) # ✅ Using named URL
         else:
             messages.error(request, "註冊失敗，請檢查輸入信息。")
     else:
@@ -33,7 +35,8 @@ def login_view(request):
                 login(request, user)
                 messages.success(request, f"歡迎回來，{username}！")
                 #return redirect('member:dashboard')  # ✅ 設定正確
-                return redirect('/')
+                #return redirect('/')
+                return redirect(reverse('home')) # ✅ Using named URL
         messages.error(request, "用戶名或密碼錯誤。")
     else:
         form = AuthenticationForm()
@@ -54,7 +57,8 @@ from django.views.decorators.csrf import csrf_exempt
 def logout_view(request):
     logout(request)
     messages.success(request, "您已成功登出。")
-    return redirect('/')
+    #return redirect('/')
+    return redirect(reverse('home')) # ✅ Using named URL
 
 
 

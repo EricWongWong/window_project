@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}驗窗知識庫 - 強制驗窗FAQ及法定須知{% endblock %}
+
+{% block content %}
+<h1>驗窗知識庫</h1>
+<hr>
+<p class="lead">根據香港《建築物條例》第123章，強制驗窗計劃旨在確保舊樓窗戶安全。以下為業主必須了解的法定要求及實用資訊。</p>
+
+<!-- 📌 法定重點提醒區域 -->
+<div class="alert alert-danger mb-4">
+    <h4 class="alert-heading">⚠️ 法定注意重點（《建築物條例》第123章）</h4>
+    <hr>
+    <ul class="mb-0">
+        <li><strong>法定時限：</strong>收到屋宇署驗窗通知後，業主必須在 <strong>6個月內</strong> 完成訂明檢驗及所需的修葺工程。</li>
+        <li><strong>罰則：</strong>無合理辯解而未能遵從通知，一經定罪，最高可處罰款 <strong>港幣$50,000</strong> 及監禁 <strong>1年</strong>，並可按罪行持續的每一天另處罰款 <strong>$5,000</strong>。</li>
+        <li><strong>委任QP的責任：</strong>業主必須委任一名「合資格人士」(QP) 進行檢驗。QP須名列屋宇署的認可名冊，業主有責任核實其資格。</li>
+        <li><strong>窗戶安全標準：</strong>窗扇、窗鉸、螺絲及鉚釘必須穩固，無明顯鏽蝕、變形或鬆脫。不合規者必須由註冊承建商維修。</li>
+        <li><strong>窗戶改動限制：</strong>未經屋宇署批准，不得擅自改動或更換整扇窗戶的設計、材料或大小，否則可能違反《建築物條例》。</li>
+        <li><strong>業主立案法團的責任：</strong>如窗戶屬於大廈公用部分（例如大堂、樓梯間窗戶），維修責任由法團承擔。</li>
+    </ul>
+</div>
+
+<!-- 📌 收到驗窗通知後的處理步驟 -->
+<div class="card mb-4 border-primary">
+    <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">📋 收到驗窗通知後，應如何處理？ (7步完成)</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="fs-5" style="list-style-type: decimal; line-height: 1.8;">
+                    <li><strong>📄 確認通知內容：</strong>仔細閱讀屋宇署發出的法定通知，確認指定完成期限（通常為6個月）。</li>
+                    <li><strong>👨‍🔧 委任合資格人士 (QP)：</strong>委託名列屋宇署認可名冊的QP（如註冊建築師、工程師、測量師或註冊小型工程承建商）進行檢驗。<br>
+                        <span class="text-muted small">✅ 可透過本公司安排，我們旗下QP均有多年驗窗經驗。</span>
+                    </li>
+                    <li><strong>🔍 上門訂明檢驗：</strong>QP上門檢查窗戶的玻璃、窗扇、窗鉸、螺絲等項目，並記錄檢驗結果。</li>
+                    <li><strong>📝 審視檢驗結果：</strong>
+                        <ul>
+                            <li>✅ <strong>如合格：</strong> QP簽署 <strong>MWI 1表格</strong>（訂明檢驗證明書），提交屋宇署。</li>
+                            <li>🔧 <strong>如需維修：</strong> QP會列明需要維修的項目及規格，業主須委任註冊承建商進行施工。</li>
+                        </ul>
+                    </li>
+                    <li><strong>🛠️ 進行訂明修葺（如需維修）：</strong>由註冊承建商更換老化窗鉸、螺絲、膠邊等，確保符合安全標準。施工期間QP須在場監督。</li>
+                    <li><strong>✅ 覆檢及提交報告：</strong>維修完成後，QP覆檢並簽署 <strong>MWI 2表格</strong>（訂明修葺證明書），連同相關文件提交屋宇署。</li>
+                    <li><strong>📬 屋宇署確認完成：</strong>屋宇署審核文件，如無問題會發信確認完成。整個強制驗窗程序正式結束。</li>
+                </ol>
+                <div class="alert alert-success mt-3">
+                    <strong>💡 本公司一條龍服務：</strong> 由委任QP、上門檢驗、安排維修施工、到最後代為提交屋宇署文件，全程由我們跟進，業主無需自行處理繁複程序。
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 📌 常見問題 FAQ 區域 -->
+<h2>📖 常見問題 (FAQ)</h2>
+<hr>
+<div class="accordion" id="faqAccordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                什麼是強制驗窗計劃？
+            </button>
+        </h2>
+        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+                根據《建築物條例》第123章，樓齡達10年或以上的私人樓宇（不高於三層的住宅除外），業主須委任合資格人士(QP)每5年進行一次訂明檢驗及所需的修葺。屋宇署會向目標樓宇發出法定通知，業主必須在指定期限內完成。
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                什麼是「合資格人士」(QP)？
+            </button>
+        </h2>
+        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+                合資格人士 (Qualified Person) 是指獲屋宇署認可，可執行強制驗窗計劃下的檢驗及監督修葺工程的專業人士，包括：
+                <ul>
+                    <li>註冊建築師</li>
+                    <li>註冊專業工程師（結構、土木或建築範疇）</li>
+                    <li>註冊專業測量師（建築測量範疇）</li>
+                    <li>註冊小型工程承建商（第I、II或III級別，須獲適當授權）</li>
+                </ul>
+                本公司旗下QP均有多年驗窗經驗，確保檢驗專業可靠。
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                如何分辨鋁窗是否需要維修？
+            </button>
+        </h2>
+        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+                若出現以下情況，應盡快安排檢查及維修：<br>
+                <span class="badge bg-warning text-dark">⚠️ 窗扇開關困難或不暢順</span>
+                <span class="badge bg-warning text-dark">⚠️ 窗鉸、螺絲有鏽蝕或鬆脫</span>
+                <span class="badge bg-warning text-dark">⚠️ 關上後仍有空隙、漏風或滲水</span>
+                <span class="badge bg-warning text-dark">⚠️ 玻璃膠邊老化、脫落</span>
+                <span class="badge bg-warning text-dark">⚠️ 手把或鎖扣損壞、無法鎖緊</span>
+                <span class="badge bg-warning text-dark">⚠️ 窗框變形或出現裂縫</span>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                沒有遵從驗窗通知會有什麼後果？
+            </button>
+        </h2>
+        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+                屋宇署可向業主發出警告，並最終提出檢控。一經定罪：
+                <ul>
+                    <li>最高罰款可達 <strong>港幣 $50,000</strong></li>
+                    <li>最高監禁 <strong>1年</strong></li>
+                    <li>按罪行持續的每一天另處罰款 <strong>$5,000</strong></li>
+                    <li>屋宇署可 <strong>代為進行工程</strong> 並向業主追討費用及附加費</li>
+                </ul>
+                因此，收到通知後應盡快處理，避免法律責任。
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                強制驗窗的費用由誰支付？
+            </button>
+        </h2>
+        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+                費用由個別單位業主負責。如為大廈公用部分（例如大堂、樓梯間的窗戶），則由業主立案法團或全體業主共同分擔。
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                窗戶維修後，屋宇署會再上門視察嗎？
+            </button>
+        </h2>
+        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+                屋宇署會隨機抽選已提交證明書的個案進行 <strong>實地審核</strong>。如發現違規，可向QP或承建商提出檢控或採取紀律行動。因此，選擇有信譽的承建商（如本公司）至關重要，確保維修質素符合法定標準。
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 📌 鋁窗保養小貼士 -->
+<div class="alert alert-info mt-4">
+    <h4>🛠️ 鋁窗保養小貼士</h4>
+    <ul>
+        <li>✅ 每年至少檢查一次窗鉸、螺絲有否生鏽或鬆脫</li>
+        <li>✅ 定期清潔窗框排水孔，避免積水導致鏽蝕</li>
+        <li>✅ 不要懸掛重物在窗把手或窗扇上</li>
+        <li>✅ 遇上颱風前確保窗扇緊閉，並檢查鎖扣是否穩固</li>
+        <li>✅ 如發現開關不順，應盡快安排檢查，不要強行用力開關</li>
+        <li>✅ 每隔3-5年可考慮更換老化膠邊，保持防水效能</li>
+    </ul>
+</div>
+
+<!-- 📌 屋宇署技術要求摘要 -->
+<div class="alert alert-secondary mt-4">
+    <h4>📐 屋宇署強制驗窗技術要求摘要</h4>
+    <ul>
+        <li>鋁金屬切面厚度不少於 <strong>2 毫米</strong></li>
+        <li>窗框切面深度不少於 <strong>38 毫米</strong></li>
+        <li>可開啟窗戶闊度一般不超過 <strong>700 毫米</strong></li>
+        <li>不鏽鋼4桿窗鉸厚度最少為 <strong>2.5 毫米</strong></li>
+        <li>窗鉸長度須達窗扇闊度的 <strong>60% 以上</strong></li>
+        <li>使用直徑不少於 <strong>4.8 毫米</strong>的不鏽鋼鉚釘或直徑不少於 <strong>5 毫米</strong>的不鏽鋼螺絲</li>
+        <li>安裝前後須在螺絲孔口及頂部塗上含瀝青的油料或密封劑</li>
+    </ul>
+</div>
+
+<div class="text-center mt-4">
+    <a href="/booking/" class="btn btn-primary btn-lg">📞 仍有疑問？立即預約諮詢</a>
+</div>
+{% endblock %}

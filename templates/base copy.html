@@ -15,7 +15,7 @@
     <!-- 導航欄 -->
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003366 !important;">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">香港驗窗維修工程</a>
+            <a class="navbar-brand" href="/">香港驗窗維修工程</a>
             
             <!-- 漢堡選單按鈕（手機端觸發器） -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,15 @@
             <!-- 導航連結清單 -->
             <div id="main-menu" class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
+                    {% comment %} <li class="nav-item"><a class="nav-link" href="/">首頁</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about/">關於我們</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/services/">服務項目</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'window_schedule' %}">強制驗窗</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/price/">價目表</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cases/">工程案例</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/booking/">線上預約</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/knowledge/">知識庫</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact/">聯絡我們</a></li> {% endcomment %}
 
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">首頁</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">關於我們</a></li>
@@ -41,11 +50,11 @@
                     {% if user.is_authenticated %}
                         <!-- 當用戶「已登入」時顯示 -->
                         <li class="nav-item">
-                            <a class="nav-link text-warning fw-bold" href="{% url 'home' %}">👤 {{ user.username }} 的控制台</a>
+                            <span class="nav-link text-warning fw-bold" href="{% url 'member:dashboard' %}">👤 {{ user.username }} 的控制台</span>
                         </li>
                         <!-- 安全的 POST 登出按鈕（使用你配置好的免 CSRF 實體硬路徑） -->
                         <li class="nav-item">
-                            <form action="{% url 'member:logout' %}" method="POST" class="d-inline">
+                            <form action="/member/logout/" method="POST" class="d-inline">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-link nav-link text-danger m-0 p-2" style="border: none; background: none; vertical-align: middle;">登出</button>
                             </form>
@@ -91,9 +100,6 @@
             <p>符合香港屋宇署強制驗窗條例 | 註冊承建商 | QP 合資格人士</p>
         </div>
     </footer>
-
-    <!-- At the bottom, before </body> -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- 🎯 終極硬編碼：強行控制 Display 屬性，原生 JS 完美驅動選單 -->
     <script>

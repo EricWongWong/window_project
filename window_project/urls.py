@@ -5,8 +5,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('core.urls')),
-    path('booking/', include('booking.urls')),
+    path('', include('core.urls')), # Home, about, contact
+    path('', include('booking.urls')),
     path('member/', include('member.urls')),
     # 4. 认证系统：直接引入 Django 内置的登录（Login）和登出（Logout）路由
     # 引入后，你无需手写登录逻辑，直接访问 /accounts/login/ 即可使用
