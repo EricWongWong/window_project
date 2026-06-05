@@ -74,17 +74,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'window_project.wsgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'window_project',
-#         'USER': 'postgres',
-#         'PASSWORD': 'ew1234'
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-        
-#     }
-# }
 
 DATABASES = {
     'default': {
