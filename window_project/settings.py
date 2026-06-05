@@ -7,8 +7,11 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = True
-ALLOWED_HOSTS = ["127.0.0.1", 'localhost']
+# Convert the string "True" from .env into a real Python Boolean
+DEBUG = os.getenv("DEBUG") == "True"
+# Split the string of hosts into a Python list
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -71,15 +74,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'window_project.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'window_project',
+#         'USER': 'postgres',
+#         'PASSWORD': 'ew1234'
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+        
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'window_project',
-        'USER': 'postgres',
-        'PASSWORD': 'ew1234',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
