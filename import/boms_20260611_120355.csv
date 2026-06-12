@@ -1,0 +1,3 @@
+﻿bom_name,components
+BOM-1,"{'qty': 1, 'product_name': 'S-1'}"
+BOM-2,"{'qty': 10, 'product_name': 'S-2'}"

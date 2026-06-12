@@ -1,0 +1,48 @@
+[2026-06-09 12:13:16] INFO: User exited the program
+[2026-06-09 12:14:22] INFO: User exited the program
+[2026-06-09 12:14:37] ERROR: Database connection failed: connection to server at "localhost" (127.0.0.1), port 5432 failed: fe_sendauth: no password supplied
+
+[2026-06-09 12:34:27] ERROR: Database connection failed: connection to server at "localhost" (127.0.0.1), port 5432 failed: fe_sendauth: no password supplied
+
+[2026-06-09 12:49:12] ERROR: Database connection failed: connection to server at "localhost" (127.0.0.1), port 5432 failed: fe_sendauth: no password supplied
+
+[2026-06-09 12:50:20] ERROR: Database connection failed: connection to server at "localhost" (127.0.0.1), port 5432 failed: fe_sendauth: no password supplied
+
+[2026-06-09 12:51:24] INFO: User exited the program
+[2026-06-09 12:56:24] ERROR: Database connection failed: DB_NAME not configured
+[2026-06-10 09:33:48] ERROR: Database connection failed: Requested setting DATABASES, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+[2026-06-10 09:39:01] ERROR: Database connection failed: Requested setting DATABASES, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+[2026-06-10 09:45:05] ERROR: Database connection failed: Requested setting DATABASES, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.
+[2026-06-10 09:46:19] INFO: Database connection test successful
+[2026-06-10 09:47:38] INFO: Generated products template: templates/products_template_20260610_094738.csv
+[2026-06-10 09:47:38] INFO: Generated BOMs template: templates/boms_template_20260610_094738.csv
+[2026-06-10 09:47:38] INFO: Generated order items template: templates/order_items_template_20260610_094738.csv
+[2026-06-10 09:48:35] INFO: Database connection test successful
+[2026-06-10 09:49:00] ERROR: Database connection failed: connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+[2026-06-10 09:50:10] ERROR: Database connection failed: connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  password authentication failed for user "postgres"
+
+[2026-06-10 09:50:17] INFO: Database connection test successful
+[2026-06-10 09:51:46] INFO: Generated products template: templates/products_template_20260610_095146.csv
+[2026-06-10 09:51:46] INFO: Generated BOMs template: templates/boms_template_20260610_095146.csv
+[2026-06-10 09:51:46] INFO: Generated order items template: templates/order_items_template_20260610_095146.csv
+[2026-06-10 10:08:51] INFO: Generated products template: /home/eric/Documents/Win_Project/templates/products_template_20260610_100851.csv
+[2026-06-10 10:08:51] INFO: Generated BOMs template: /home/eric/Documents/Win_Project/templates/boms_template_20260610_100851.csv
+[2026-06-10 10:08:51] INFO: Generated order items template: /home/eric/Documents/Win_Project/templates/order_items_template_20260610_100851.csv
+[2026-06-10 10:25:49] INFO: Database connection test successful
+[2026-06-10 10:25:54] INFO: Generated products template: /home/eric/Documents/Win_Project/templates/products_template_20260610_102554.csv
+[2026-06-10 10:25:54] INFO: Generated BOMs template: /home/eric/Documents/Win_Project/templates/boms_template_20260610_102554.csv
+[2026-06-10 10:25:54] INFO: Generated order items template: /home/eric/Documents/Win_Project/templates/order_items_template_20260610_102554.csv
+[2026-06-10 11:11:15] INFO: Created staging tables for dry run validation
+[2026-06-10 11:16:16] INFO: Created staging tables for dry run validation
+[2026-06-10 11:18:09] INFO: Created staging tables for dry run validation
+[2026-06-10 11:33:38] INFO: Created staging tables for dry run validation
+[2026-06-10 11:46:04] INFO: Created staging tables for dry run validation
+[2026-06-10 11:51:14] INFO: Created staging tables for dry run validation
+[2026-06-10 12:19:02] INFO: Created staging tables for dry run validation
+[2026-06-10 12:20:14] INFO: Created staging tables for dry run validation
+[2026-06-10 12:31:41] INFO: Created staging tables for dry run validation
+[2026-06-10 12:59:18] INFO: Created staging tables for dry run validation
+[2026-06-11 12:13:36] SUCCESS: Exported 2 BOMs to /home/eric/Documents/Win_Project/export/boms_20260611_121336.csv
