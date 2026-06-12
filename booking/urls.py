@@ -12,7 +12,14 @@ urlpatterns = [
     path('price/', views.price, name='price'),
     path('cases/', views.cases, name='cases'),
     path('booking/', views.booking, name='booking'),
-    path('knowledge/', views.knowledge, name='knowledge'),
+    path('knowledge/', views.knowledge, name='knowledge'),    
+    # Profile & password
+    path('profile/', views.profile_view, name='profile'),
+    path('change-password/', views.change_password, name='change_password'),
+
+    # My Orders & report note
+    path('my-orders/', views.my_orders, name='my_orders'),
+    path('order/<int:order_id>/', views.order_detail_with_report, name='order_detail_with_report'),
 
 
 ]

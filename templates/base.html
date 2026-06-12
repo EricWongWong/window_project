@@ -7,10 +7,97 @@
     <title>{% block title %}驗窗及鋁窗維修承建商{% endblock %}</title>
     <!-- 引入 Bootstrap 5.3.0 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- 引入自訂樣式 -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* Admin Sidebar Styles */
+        .admin-sidebar {
+            position: fixed;
+            left: 0;
+            top: 56px;
+            width: 250px;
+            height: calc(100% - 56px);
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .admin-sidebar-header {
+            padding: 15px;
+            background-color: #e9ecef;
+            border-bottom: 2px solid #003366;
+            font-weight: bold;
+        }
+        .admin-sidebar-header h5 {
+            margin: 0;
+            color: #003366;
+        }
+        .admin-sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .admin-sidebar-nav li a {
+            display: block;
+            padding: 12px 15px;
+            color: #333;
+            text-decoration: none;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        .admin-sidebar-nav li a:hover {
+            background-color: #e9ecef;
+            border-left-color: #003366;
+            padding-left: 20px;
+        }
+        .admin-sidebar-nav li a i {
+            width: 25px;
+            margin-right: 8px;
+            color: #003366;
+        }
+        .admin-sidebar-nav li hr {
+            margin: 10px 0;
+            border-color: #dee2e6;
+        }
+        @media (max-width: 768px) {
+            .admin-sidebar { 
+                display: none; 
+            }
+        }
+        
+        /* Main content adjustment for sidebar */
+        .main-content-with-sidebar {
+            margin-left: 250px;
+            padding: 20px;
+            min-height: calc(100vh - 56px);
+        }
+        @media (max-width: 768px) {
+            .main-content-with-sidebar {
+                margin-left: 0;
+                padding: 15px;
+            }
+        }
+        
+        /* Footer adjustment */
+        footer {
+            background-color: #003366;
+            color: white;
+            margin-top: auto;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content {
+            flex: 1;
+        }
+    </style>
 </head>
-<body> <!-- ✅ 修正 1：補回被遺漏的 body 開始標籤 -->
+<body>
 
     <!-- 導航欄 -->
     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003366 !important;">
@@ -25,38 +112,55 @@
             <!-- 導航連結清單 -->
             <div id="main-menu" class="collapse navbar-collapse">
                 <ul class="navbar-nav ms-auto">
-
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">首頁</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">關於我們</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'services' %}">服務項目</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'window_schedule' %}">強制驗窗</a></li>  <!-- ✅ Fixed -->
+                    <li class="nav-item"><a class="nav-link" href="{% url 'window_schedule' %}">強制驗窗</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'price' %}">價目表</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'cases' %}">工程案例</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'booking' %}">線上預約</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'knowledge' %}">知識庫</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">聯絡我們</a></li>
 
+                    <!-- 新增大黃頁 - 會員專區 -->
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link text-info" href="{% url 'my_orders' %}"><i class="fas fa-list"></i> 我的訂單</a></li>
+                        <li class="nav-item"><a class="nav-link text-info" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> 個人資料</a></li>
+                    {% endif %}
                     
                     <!-- 動態認證選單 -->
                     {% if user.is_authenticated %}
                         <!-- 當用戶「已登入」時顯示 -->
-                        <li class="nav-item">
-                            <a class="nav-link text-warning fw-bold" href="{% url 'home' %}">👤 {{ user.username }} 的控制台</a>
-                        </li>
-                        <!-- 安全的 POST 登出按鈕（使用你配置好的免 CSRF 實體硬路徑） -->
-                        <li class="nav-item">
-                            <form action="{% url 'member:logout' %}" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-link nav-link text-danger m-0 p-2" style="border: none; background: none; vertical-align: middle;">登出</button>
-                            </form>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-warning fw-bold" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user"></i> {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-id-card"></i> 個人檔案</a></li>
+                                <li><a class="dropdown-item" href="{% url 'my_orders' %}"><i class="fas fa-shopping-bag"></i> 我的訂單</a></li>
+                                <li><a class="dropdown-item" href="{% url 'change_password' %}"><i class="fas fa-key"></i> 更改密碼</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form action="{% url 'member:logout' %}" method="POST" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="fas fa-sign-out-alt"></i> 登出
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
                     {% else %}
                         <!-- 當用戶「未登入」時顯示 -->
                         <li class="nav-item">
-                            <a class="nav-link fw-bold" href="{% url 'member:login' %}" style="color: #66ccff !important;">會員登入</a>
+                            <a class="nav-link fw-bold" href="{% url 'member:login' %}" style="color: #66ccff !important;">
+                                <i class="fas fa-sign-in-alt"></i> 會員登入
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'member:register' %}">註冊帳號</a>
+                            <a class="nav-link" href="{% url 'member:register' %}">
+                                <i class="fas fa-user-plus"></i> 註冊帳號
+                            </a>
                         </li>
                     {% endif %}
                 </ul>
@@ -64,25 +168,62 @@
         </div>
     </nav>
 
-    <!-- 主內容區塊容器 -->
-    <div class="content container my-4">
-        
-        <!-- ✅ 修正 2：全域訊息通知中心放置於此，確保在內容最頂端顯示，讀取後立即自動清空快取 -->
-        {% if messages %}
-            <div class="messages-container mb-4">
-                {% for message in messages %}
-                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
+    <!-- 管理員側邊欄（僅對 staff 用戶顯示） -->
+    {% if user.is_authenticated and user.is_staff %}
+        <div class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h5><i class="fas fa-cog"></i> 管理員控制台</h5>
+                <small>快速導航</small>
             </div>
-        {% endif %}
-
-        <!-- ✅ 修正 3：乾淨、不嵌套的唯一內容插槽 -->
-        {% block content %}{% endblock %}
+            <ul class="admin-sidebar-nav">
+                <li><a href="{% url 'admin:booking_order_changelist' %}"><i class="fas fa-truck"></i> 訂單管理</a></li>
+                <li><a href="{% url 'admin:booking_report_changelist' %}"><i class="fas fa-file-alt"></i> 檢驗報告</a></li>
+                <li><a href="{% url 'admin:booking_productmaster_changelist' %}"><i class="fas fa-boxes"></i> 產品主檔</a></li>
+                <li><a href="{% url 'admin:booking_productbom_changelist' %}"><i class="fas fa-cube"></i> BOM 結構</a></li>
+                <li><a href="{% url 'admin:booking_orderitem_changelist' %}"><i class="fas fa-shopping-cart"></i> 訂單細項</a></li>
+                <li><hr></li>
+                <li><a href="{% url 'admin:index' %}"><i class="fas fa-cog"></i> 完整後台</a></li>
+                <li><a href="{% url 'admin:auth_user_changelist' %}"><i class="fas fa-users"></i> 用戶管理</a></li>
+            </ul>
+        </div>
         
-    </div>
+        <!-- 有側邊欄的主內容 -->
+        <div class="main-content-with-sidebar">
+            <div class="content container-fluid">
+                <!-- 全域訊息通知 -->
+                {% if messages %}
+                    <div class="messages-container mb-4">
+                        {% for message in messages %}
+                            <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'success' %}success{% elif message.tags == 'warning' %}warning{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                                <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    {% else %}
+        <!-- 一般用戶（無側邊欄） -->
+        <div class="content container my-4">
+            {% if messages %}
+                <div class="messages-container mb-4">
+                    {% for message in messages %}
+                        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'success' %}success{% elif message.tags == 'warning' %}warning{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                            <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% else %}info-circle{% endif %}"></i>
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            {% block content %}{% endblock %}
+        </div>
+    {% endif %}
 
     <!-- 頁腳 -->
     <footer>
@@ -92,10 +233,10 @@
         </div>
     </footer>
 
-    <!-- At the bottom, before </body> -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- 🎯 終極硬編碼：強行控制 Display 屬性，原生 JS 完美驅動選單 -->
+    <!-- 手機版選單控制 -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var burgerBtn = document.querySelector('.navbar-toggler');
@@ -128,6 +269,16 @@
             }
         });
     </script>
+    
+    <!-- 自動消失的訊息提示（3秒後淡出） -->
+    <script>
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 3000);
+    </script>
 </body>
 </html>
-
