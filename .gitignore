@@ -1,7 +1,18 @@
 .env
 *.bak
+
 # Python cache files
-/__pycache__
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.pyc
+*.pyo
+
+# Migration cache (keep the .py files, ignore .pyc)
+*/migrations/__pycache__/
+
+# Django cache
+*.log
+*.pot
+*.pyc
