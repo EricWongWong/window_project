@@ -1,7 +1,0 @@
-﻿bom_name,components
-# Name of the service package,"# JSON array: [{""product_name"": ""exact name"", ""qty"": number}]"
-Hinge Repair Kit,"[{""product_name"": ""3-inch stainless hinge"", ""qty"": 2}, {""product_name"": ""Stainless steel rivet"", ""qty"": 8}]"
-Seal Kit,"[{""product_name"": ""Silicone sealant"", ""qty"": 1}, {""product_name"": ""Weatherstrip tape"", ""qty"": 5}]"
-Glass Replacement,"[{""product_name"": ""Float glass 5mm"", ""qty"": 1}, {""product_name"": ""Silicone sealant"", ""qty"": 1}]"
-Hardware Kit,"[{""product_name"": ""Window handle"", ""qty"": 1}, {""product_name"": ""Self-tapping screw"", ""qty"": 4}]"
-Complete Overhaul,"[{""product_name"": ""3-inch stainless hinge"", ""qty"": 2}, {""product_name"": ""Silicone sealant"", ""qty"": 1}, {""product_name"": ""Stainless steel rivet"", ""qty"": 12}]"

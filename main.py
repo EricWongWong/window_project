@@ -480,6 +480,8 @@ def validate_boms_with_staging(csv_filepath, product_names):
     for idx, row in enumerate(valid_rows):
         name = row.get('bom_name', '').strip()
         components_str = row.get('components', '').strip()
+        # DEBUG: Print each row being processed
+        print(f"  DEBUG: Processing row {idx+1}: bom_name='{name}', components='{components_str[:100]}...'")
         
         if not name:
             critical_errors.append(f"Row {idx+1}: CRITICAL - Missing bom_name")
@@ -542,6 +544,10 @@ def validate_boms_with_staging(csv_filepath, product_names):
     print(f"  ✓ {valid_count} valid BOMs (ready to import)")
     if critical_errors:
         print(f"  ✗ {len(critical_errors)} CRITICAL errors")
+        # DEBUG: Print each critical error
+        print("\n  DETAILED CRITICAL ERRORS:")
+        for err in critical_errors:
+            print(f"    {err}")
     
     return critical_errors, warnings, valid_count
 
@@ -1027,11 +1033,19 @@ def run_dry_validation_enhanced():
     duplicate_counts = {'products': 0, 'boms': 0}
     
     product_names = set(csv_products.keys())
+
     try:
         existing = run_sql("SELECT product_name FROM booking_productmaster", fetch=True)
         product_names.update({p['product_name'] for p in existing})
     except:
         pass
+
+    # In run_dry_validation_enhanced(), after product_names is built
+    print(f"\n  DEBUG: Available product names for BOM validation:")
+    for pn in sorted(product_names)[:20]:
+        print(f"    - {pn}")
+    if len(product_names) > 20:
+        print(f"    ... and {len(product_names) - 20} more")
     
     bom_names = set(csv_boms.keys())
     try:

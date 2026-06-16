@@ -46,3 +46,6 @@ connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  passw
 [2026-06-10 12:31:41] INFO: Created staging tables for dry run validation
 [2026-06-10 12:59:18] INFO: Created staging tables for dry run validation
 [2026-06-11 12:13:36] SUCCESS: Exported 2 BOMs to /home/eric/Documents/Win_Project/export/boms_20260611_121336.csv
+[2026-06-16 10:50:43] SUCCESS: Exported 3 BOMs to /home/eric/Documents/Win_Project/export/boms_20260616_105043.csv
+[2026-06-16 11:02:04] SUCCESS: Exported 3 BOMs to /home/eric/Documents/Win_Project/export/boms_20260616_110204.csv
+[2026-06-16 11:36:25] WARNING: Export BOMs attempted but no BOMs found
