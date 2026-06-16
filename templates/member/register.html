@@ -7,34 +7,61 @@
         <div class="card p-4 mt-4">
             <h2 class="text-center mb-4" style="color: #003366;">註冊新帳號</h2>
 
-            <form method="POST">
-                {% csrf_token %}
-                {% for field in form %}
-                    <div class="mb-3">
-                        <label class="form-label fw-bold" style="color: #003366;">{{ field.label }}</label>
-                        {{ field }}
-                        <!-- 顯示密碼強度或長度等提示文字 -->
-                        {% if field.help_text %}
-                            <div class="form-text text-muted small" style="font-size: 0.8rem;">{{ field.help_text|safe }}</div>
-                        {% endif %}
-                        {% if field.errors %}
-                            <div class="text-danger small fw-bold mt-1">{{ field.errors|striptags }}</div>
-                        {% endif %}
+            <!-- Display error messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 {% endfor %}
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                
+                <!-- Username field -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold" style="color: #003366;">用戶名</label>
+                    <input type="text" name="username" class="form-control" required 
+                        placeholder="請輸入用戶名">
+                </div>
+                
+                <!-- Email field -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold" style="color: #003366;">電子郵件</label>
+                    <input type="email" name="email" class="form-control" required 
+                        placeholder="your@email.com">
+                </div>
+                
+                <!-- Password field -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold" style="color: #003366;">密碼</label>
+                    <input type="password" name="password1" class="form-control" required>
+                    <div class="form-text text-muted small">密碼至少8個字符</div>
+                </div>
+                
+                <!-- Confirm password field -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold" style="color: #003366;">確認密碼</label>
+                    <input type="password" name="password2" class="form-control" required>
+                </div>
+                
                 <button type="submit" class="btn btn-primary w-100 mt-3" style="background-color: #003366;">提交註冊</button>
             </form>
             
             <div class="text-center mt-4">
-                <p class="mb-0">已有帳號？ <a href="{% url 'member:login' %}" class="fw-bold" style="color: #003366;">直接登入</a></p>
+                <p class="mb-0">已有帳號？ <a href="{% url 'login' %}" class="fw-bold" style="color: #003366;">直接登入</a></p>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    /* 讓 Django 註冊表單輸入框完美適應 Bootstrap */
-    form input[type="text"], form input[type="password"], form input[type="email"] {
+    /* 讓輸入框完美適應 Bootstrap */
+    form input[type="text"], 
+    form input[type="password"], 
+    form input[type="email"] {
         display: block;
         width: 100%;
         padding: 0.375rem 0.75rem;
@@ -48,6 +75,7 @@
         border-radius: 0.375rem;
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     }
+    
     /* 讓內置的幫助列表樣式更整潔 */
     form ul {
         padding-left: 15px;

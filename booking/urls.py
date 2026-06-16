@@ -17,6 +17,7 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     path('change-password/', views.change_password, name='change_password'),
 
+
     # My Orders & report note
     path('my-orders/', views.my_orders, name='my_orders'),
     path('order/<int:order_id>/', views.order_detail_with_report, name='order_detail_with_report'),

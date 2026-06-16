@@ -4,6 +4,9 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import Order, Report
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+
 
 # ---------- Profile & Password ----------
 @login_required
@@ -70,6 +73,7 @@ def cases(request):
 def knowledge(request):
     return render(request, 'booking/knowledge.html')
 
+
 def booking(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -81,10 +85,11 @@ def booking(request):
 
         if not all([name, phone, address, booking_date, service_type]):
             messages.error(request, '請填寫所有必要欄位')
-            return render(request, 'booking.html')
+            return render(request, 'booking/booking.html')
 
+        # FIX: Link order to logged-in user if authenticated
         Order.objects.create(
-            user=None,
+            user=request.user if request.user.is_authenticated else None,
             name=name,
             phone=phone,
             address=address,
