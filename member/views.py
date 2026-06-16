@@ -21,7 +21,7 @@ def register_view(request):
             messages.error(request, "註冊失敗，請檢查輸入信息。")
     else:
         form = UserCreationForm()
-    return render(request, 'member/register.html', {'form': form})
+    return render(request, 'member/login.html', {'form': form})
 
 # 2. 登錄視圖
 def login_view(request):
@@ -59,6 +59,8 @@ def logout_view(request):
     messages.success(request, "您已成功登出。")
     #return redirect('/')
     return redirect(reverse('home')) # ✅ Using named URL
+
+
 
 
 

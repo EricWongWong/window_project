@@ -9,6 +9,7 @@ SERVICE_CHOICES = (
 
 STATUS_CHOICES = (
     ('pending', '待處理'),
+    ('cancelled', '取消'),
     ('completed', '已完成'),
 )
 
@@ -31,6 +32,10 @@ class Report(models.Model):
     qp_name = models.CharField(max_length=50)
     result = models.TextField()
     is_safe = models.BooleanField(default=False)
+    customer_note = models.TextField(blank=True, null=True)   # ← new line
+    
+    def __str__(self):
+        return f"Report for Order {self.order.id}"
 
 # ============================================================
 # NEW BOM MODELS (Add these at the bottom)

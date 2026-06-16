@@ -1,7 +1,12 @@
 .env
 *.bak
 
-# Python cache files
+# Django cache
+*.log
+*.pot
+*.pyc
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
@@ -9,10 +14,36 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Migration cache (keep the .py files, ignore .pyc)
-*/migrations/__pycache__/
-
-# Django cache
+# Django
 *.log
 *.pot
-*.pyc
+db.sqlite3
+*.sqlite3
+
+# Virtual environment
+venv/
+.venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Environment variables
+.env
+.env.local
+
+# Migrations cache (keep .py files, ignore .pyc)
+*/migrations/__pycache__/
+
+# BOM pipeline directories
+data_pipeline/logs/
+data_pipeline/export/
+data_pipeline/import/
+data_pipeline/templates/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 # 如果你之前設置了 app_name，請保留這行（這就是為什麼之前需要使用 member:dashboard 的原因）
-app_name = 'member' 
+#app_name = 'member' 
 
 urlpatterns = [
     # 1. 指向正確的 views 函數名

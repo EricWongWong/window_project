@@ -1,133 +1,321 @@
 {% load static %}<!-- 必須放在文件的第一行 -->
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}驗窗及鋁窗維修承建商{% endblock %}</title>
-    <!-- 引入 Bootstrap 5.3.0 CSS -->
+    <title>{% block title %}香港驗窗維修工程{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- 引入自訂樣式 -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Right Sidebar Styles (Desktop only) */
+        .admin-sidebar {
+            position: fixed;
+            right: 0;
+            top: 56px;
+            width: 260px;
+            height: calc(100% - 56px);
+            background-color: #f8f9fa;
+            border-left: 1px solid #dee2e6;
+            overflow-y: auto;
+            z-index: 100;
+            transition: width 0.3s ease;
+        }
+        
+        /* Sidebar collapsed state */
+        .admin-sidebar.collapsed {
+            width: 0;
+            overflow: hidden;
+        }
+        
+        .admin-sidebar-header {
+            padding: 15px;
+            background-color: #e9ecef;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: bold;
+        }
+        
+        .admin-sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .admin-sidebar-nav li a {
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
+            border-right: 3px solid transparent;
+            white-space: nowrap;
+        }
+        
+        .admin-sidebar-nav li a:hover {
+            background-color: #e9ecef;
+            border-right-color: #007bff;
+        }
+        
+        .admin-sidebar-nav li a i {
+            width: 25px;
+            margin-right: 8px;
+        }
+        
+        /* Main content shift when sidebar is visible */
+        .main-content-shifted {
+            margin-right: 260px;
+            padding: 20px;
+            transition: margin-right 0.3s ease;
+        }
+        
+        /* When sidebar is collapsed */
+        .main-content-shifted.sidebar-collapsed {
+            margin-right: 0;
+        }
+        
+        /* Hide sidebar on mobile */
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                display: none;
+            }
+            .main-content-shifted {
+                margin-right: 0;
+            }
+        }
+        
+        /* Sidebar Toggle Button */
+        .sidebar-toggle-btn {
+            position: fixed;
+            right: 270px;
+            bottom: 30px;
+            z-index: 1000;
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-toggle-btn:hover {
+            background-color: #ffc107;
+            color: #003366;
+            transform: scale(1.05);
+        }
+        
+        .sidebar-toggle-btn.collapsed {
+            right: 20px;
+        }
+        
+        /* Navbar styling */
+        .navbar {
+            background-color: #003366 !important;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            color: #fff !important;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .nav-link:hover {
+            color: #ffc107 !important;
+        }
+        
+        .nav-link i {
+            margin-right: 5px;
+        }
+        
+        .dropdown-menu {
+            background-color: #003366;
+        }
+        
+        .dropdown-item {
+            color: white;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #ffc107;
+            color: #003366;
+        }
+        
+        footer {
+            margin-top: 50px;
+            padding: 20px 0;
+            background-color: #f8f9fa;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
 </head>
-<body> <!-- ✅ 修正 1：補回被遺漏的 body 開始標籤 -->
-
-    <!-- 導航欄 -->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003366 !important;">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">香港驗窗維修工程</a>
-            
-            <!-- 漢堡選單按鈕（手機端觸發器） -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #003366;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-window-maximize"></i> 香港驗窗維修工程
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
-            <!-- 導航連結清單 -->
-            <div id="main-menu" class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home"></i> 首頁</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}"><i class="fas fa-info-circle"></i> 關於我們</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/services/"><i class="fas fa-tools"></i> 服務項目</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/window-schedule/"><i class="fas fa-calendar-alt"></i> 強制驗窗</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/price/"><i class="fas fa-tag"></i> 價目表</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cases/"><i class="fas fa-folder-open"></i> 工程案例</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/booking/"><i class="fas fa-calendar-check"></i> 線上預約</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/knowledge/"><i class="fas fa-book"></i> 知識庫</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}"><i class="fas fa-envelope"></i> 聯絡我們</a></li>
+                </ul>
+                
+                <!-- Right side - User authentication -->
                 <ul class="navbar-nav ms-auto">
-
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">首頁</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">關於我們</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'services' %}">服務項目</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'window_schedule' %}">強制驗窗</a></li>  <!-- ✅ Fixed -->
-                    <li class="nav-item"><a class="nav-link" href="{% url 'price' %}">價目表</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'cases' %}">工程案例</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'booking' %}">線上預約</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'knowledge' %}">知識庫</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">聯絡我們</a></li>
-
-                    
-                    <!-- 動態認證選單 -->
                     {% if user.is_authenticated %}
-                        <!-- 當用戶「已登入」時顯示 -->
-                        <li class="nav-item">
-                            <a class="nav-link text-warning fw-bold" href="{% url 'home' %}">👤 {{ user.username }} 的控制台</a>
-                        </li>
-                        <!-- 安全的 POST 登出按鈕（使用你配置好的免 CSRF 實體硬路徑） -->
-                        <li class="nav-item">
-                            <form action="{% url 'member:logout' %}" method="POST" class="d-inline">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-link nav-link text-danger m-0 p-2" style="border: none; background: none; vertical-align: middle;">登出</button>
-                            </form>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'my_orders' %}"><i class="fas fa-shopping-cart"></i> 我的訂單</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}"><i class="fas fa-user"></i> 個人資料</a></li>
+                        
+                        {% if user.is_staff %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-cog"></i> 管理
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item" href="/admin/booking/order/" target="_blank"><i class="fas fa-truck"></i> 訂單管理</a></li>
+                                    <li><a class="dropdown-item" href="/admin/booking/report/" target="_blank"><i class="fas fa-file-alt"></i> 報告管理</a></li>
+                                    <li><a class="dropdown-item" href="/admin/booking/productmaster/" target="_blank"><i class="fas fa-boxes"></i> 產品管理</a></li>
+                                    <li><a class="dropdown-item" href="/admin/booking/productbom/" target="_blank"><i class="fas fa-cube"></i> BOM管理</a></li>
+                                    <li><a class="dropdown-item" href="/admin/booking/orderitem/" target="_blank"><i class="fas fa-shopping-cart"></i> 訂單項目</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/admin/" target="_blank"><i class="fas fa-cog"></i> 完整管理後台</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle"></i> {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user"></i> 個人資料</a></li>
+                                <li><a class="dropdown-item" href="{% url 'change_password' %}"><i class="fas fa-key"></i> 更改密碼</a></li>
+                                <li><a class="dropdown-item" href="{% url 'my_orders' %}"><i class="fas fa-shopping-cart"></i> 我的訂單</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> 登出</button>
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
                     {% else %}
-                        <!-- 當用戶「未登入」時顯示 -->
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold" href="{% url 'member:login' %}" style="color: #66ccff !important;">會員登入</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'member:register' %}">註冊帳號</a>
-                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> 會員登入</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}"><i class="fas fa-user-plus"></i> 註冊帳號</a></li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- 主內容區塊容器 -->
-    <div class="content container my-4">
-        
-        <!-- ✅ 修正 2：全域訊息通知中心放置於此，確保在內容最頂端顯示，讀取後立即自動清空快取 -->
-        {% if messages %}
-            <div class="messages-container mb-4">
-                {% for message in messages %}
-                    <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
+    <!-- Main content area -->
+    {% if user.is_authenticated and user.is_staff %}
+        <div class="admin-sidebar" id="adminSidebar">
+            <div class="admin-sidebar-header">
+                <i class="fas fa-cog"></i> 管理面板
             </div>
-        {% endif %}
+            <ul class="admin-sidebar-nav">
+                <li><a href="/admin/booking/order/" target="_blank"><i class="fas fa-truck"></i> 訂單管理</a></li>
+                <li><a href="/admin/booking/report/" target="_blank"><i class="fas fa-file-alt"></i> 報告管理</a></li>
+                <li><a href="/admin/booking/productmaster/" target="_blank"><i class="fas fa-boxes"></i> 產品管理</a></li>
+                <li><a href="/admin/booking/productbom/" target="_blank"><i class="fas fa-cube"></i> BOM管理</a></li>
+                <li><a href="/admin/booking/orderitem/" target="_blank"><i class="fas fa-shopping-cart"></i> 訂單項目</a></li>
+                <li><hr></li>
+                <li><a href="/admin/" target="_blank"><i class="fas fa-cog"></i> 完整管理後台</a></li>
+            </ul>
+        </div>
+        <div class="main-content-shifted" id="mainContent">
+    {% else %}
+        <div class="container mt-4">
+    {% endif %}
+    
+    {% block content %}{% endblock %}
+    
+    {% if user.is_authenticated and user.is_staff %}
+        </div>
+    {% else %}
+        </div>
+    {% endif %}
 
-        <!-- ✅ 修正 3：乾淨、不嵌套的唯一內容插槽 -->
-        {% block content %}{% endblock %}
-        
-    </div>
-
-    <!-- 頁腳 -->
+    <!-- Footer -->
     <footer>
-        <div class="container text-center py-3">
-            <p>驗窗及鋁窗維修承建商 © 2026 版權所有</p>
-            <p>符合香港屋宇署強制驗窗條例 | 註冊承建商 | QP 合資格人士</p>
+        <div class="container">
+            <p class="mb-0">驗窗及窗維修承建商 © 2026 版權所有</p>
         </div>
     </footer>
 
-    <!-- At the bottom, before </body> -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- 🎯 終極硬編碼：強行控制 Display 屬性，原生 JS 完美驅動選單 -->
+    <!-- Sidebar Toggle Script -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var burgerBtn = document.querySelector('.navbar-toggler');
-            var mainMenu = document.querySelector('#main-menu');
-
-            if (burgerBtn && mainMenu) {
-                mainMenu.style.display = 'none';
-
-                burgerBtn.addEventListener('click', function (event) {
-                    event.stopPropagation();
+        (function() {
+            const sidebar = document.getElementById('adminSidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            // Only create toggle button if sidebar exists (admin user)
+            if (sidebar && mainContent) {
+                // Create toggle button
+                const toggleBtn = document.createElement('button');
+                toggleBtn.className = 'sidebar-toggle-btn';
+                toggleBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                toggleBtn.title = '切換側邊欄';
+                document.body.appendChild(toggleBtn);
+                
+                // Load saved state from localStorage
+                const isCollapsed = localStorage.getItem('adminSidebarCollapsed') === 'true';
+                
+                if (isCollapsed) {
+                    sidebar.classList.add('collapsed');
+                    mainContent.classList.add('sidebar-collapsed');
+                    toggleBtn.classList.add('collapsed');
+                    toggleBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                }
+                
+                // Toggle on click
+                toggleBtn.addEventListener('click', function() {
+                    sidebar.classList.toggle('collapsed');
+                    mainContent.classList.toggle('sidebar-collapsed');
+                    toggleBtn.classList.toggle('collapsed');
                     
-                    if (mainMenu.style.display === 'none' || !mainMenu.classList.contains('show')) {
-                        mainMenu.style.display = 'block';
-                        mainMenu.classList.add('show');
-                        burgerBtn.setAttribute('aria-expanded', 'true');
+                    if (sidebar.classList.contains('collapsed')) {
+                        toggleBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                        localStorage.setItem('adminSidebarCollapsed', 'true');
                     } else {
-                        mainMenu.style.display = 'none';
-                        mainMenu.classList.remove('show');
-                        burgerBtn.setAttribute('aria-expanded', 'false');
-                    }
-                });
-
-                document.addEventListener('click', function (event) {
-                    if (mainMenu.classList.contains('show') && !mainMenu.contains(event.target) && !burgerBtn.contains(event.target)) {
-                        mainMenu.style.display = 'none';
-                        mainMenu.classList.remove('show');
-                        burgerBtn.setAttribute('aria-expanded', 'false');
+                        toggleBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                        localStorage.setItem('adminSidebarCollapsed', 'false');
                     }
                 });
             }
-        });
+        })();
+    </script>
+
+    <!-- Auto-dismiss alerts -->
+    <script>
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 3000);
     </script>
 </body>
 </html>
-
