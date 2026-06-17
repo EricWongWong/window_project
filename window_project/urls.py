@@ -5,10 +5,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
-    # Member app first (authentication)
-    path('', include('member.urls')),  # This gives you /register/, /login/, /logout/
-    
+
+    # ⭐ IMPORTANT: Include member URLs with /member/ prefix
+    path('member/', include('member.urls')),  # ⭐ ADD THIS LINE
+
     # Booking app second (main site content)
     path('', include('booking.urls')),  # This gives you /services/, /booking/, etc.
     
@@ -22,3 +22,4 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

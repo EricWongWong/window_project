@@ -24,7 +24,7 @@ DJANGO_APPS = [
     'core',
     'booking',
     'member',
-
+    'channels',  # ⭐ NEW
 ]
 
 
@@ -73,7 +73,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'window_project.wsgi.application'
+ASGI_APPLICATION = 'window_project.asgi.application'  # ⭐ NEW
 
+# ⭐ NEW: Channel layers configuration
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # For development
+        # For production with Redis, uncomment:
+        # 'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        # 'CONFIG': {
+        #     "hosts": [('127.0.0.1', 6379)],
+        # },
+    },
+}
 
 DATABASES = {
     'default': {
@@ -115,13 +127,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # 🔥 【核心修復】新增這一行，告訴 Django 收集檔案時的集中存放目錄（通常命名為 staticfiles）
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# ✅ 修改後：直接使用絕對路徑，確保萬無一失
-#LOGIN_REDIRECT_URL = '/member/dashboard/'
-# login redirect to home page
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = '/member/login/'
 
+# ⭐ UPDATED: Using app_name namespace
+LOGIN_URL = 'member:login'
+LOGIN_REDIRECT_URL = 'member:dashboard'
+LOGOUT_REDIRECT_URL = '/'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -1,14 +1,710 @@
+<!-- templates/member/dashboard.html -->
+
 {% extends 'base.html' %}
-{% block title %}會員中心{% endblock %}
+{% load static %}
+
+{% block title %}管理儀表板 - 香港驗窗維修工程{% endblock %}
+
+{% block extra_css %}
+<style>
+.dashboard-container {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-badge.connected {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-badge.connecting {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.disconnected {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status-badge.error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.btn-refresh {
+    padding: 8px 16px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-refresh:hover {
+    background: #2563eb;
+}
+
+.last-updated {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+.stat-card.highlight {
+    background: linear-gradient(135deg, #003366, #1a4f8e);
+    color: white;
+}
+
+.stat-card.highlight .stat-value {
+    color: white;
+}
+
+.stat-card.highlight .stat-label {
+    color: rgba(255,255,255,0.8);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.stat-label {
+    color: #6b7280;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+/* Charts Row */
+.charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.chart-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.chart-card h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #1f2937;
+}
+
+/* Bar Chart */
+.bar-chart {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 150px;
+    padding: 10px 0;
+    gap: 10px;
+}
+
+.bar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    height: 100%;
+}
+
+.bar-container {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 120px;
+}
+
+.bar-fill {
+    width: 60%;
+    border-radius: 4px 4px 0 0;
+    transition: height 0.5s ease;
+    min-height: 4px;
+    background: linear-gradient(to top, #3b82f6, #60a5fa);
+}
+
+.bar-label {
+    font-size: 0.7rem;
+    color: #6b7280;
+    margin-top: 5px;
+}
+
+.bar-value {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 2px;
+}
+
+/* Status Distribution */
+.status-distribution {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-item .status-label {
+    min-width: 100px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.status-bar-track {
+    flex: 1;
+    height: 20px;
+    background: #f3f4f6;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.status-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.status-item .status-count {
+    min-width: 40px;
+    text-align: right;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Recent Orders */
+.recent-orders {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    margin-top: 30px;
+}
+
+.recent-orders h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #1f2937;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders-table th {
+    text-align: left;
+    padding: 12px;
+    background: #f9fafb;
+    font-weight: 600;
+    color: #4b5563;
+    font-size: 0.85rem;
+}
+
+.orders-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.orders-table tr:hover td {
+    background: #f9fafb;
+}
+
+.status-badge-small {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-badge-small.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge-small.status-confirmed {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-badge-small.status-in_progress {
+    background: #ede9fe;
+    color: #5b21b6;
+}
+
+.status-badge-small.status-completed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-badge-small.status-cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.no-data {
+    text-align: center;
+    color: #9ca3af;
+    padding: 30px !important;
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .charts-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .orders-table th,
+    .orders-table td {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<h1>會員中心</h1>
-<hr>
-<div class="card p-4">
-    <h4>我的預約</h4>
-    <p>查看驗窗/維修記錄</p>
-    <h4>我的報告</h4>
-    <p>下載驗窗報告及證明書</p>
-    <h4>工程狀態</h4>
-    <p>即時查閱施工進度</p>
+<div class="dashboard-container" x-data="dashboardApp()" x-init="init()">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1>📊 管理儀表板</h1>
+        <div class="connection-status">
+            <span class="status-badge" 
+                :class="connectionStatus"
+                x-text="connectionStatusText"></span>
+            <button @click="refreshData()" class="btn-refresh">
+                🔄 刷新
+            </button>
+        </div>
+    </div>
+
+    <div class="last-updated">
+        最後更新: <span x-text="lastUpdated"></span>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="stats-grid">
+        <div class="stat-card highlight">
+            <div class="stat-value" x-text="stats.total_orders || 0"></div>
+            <div class="stat-label">總訂單</div>
+        </div>
+        <div class="stat-card highlight">
+            <div class="stat-value" x-text="stats.today_orders || 0"></div>
+            <div class="stat-label">今日訂單</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" x-text="stats.this_week_orders || 0"></div>
+            <div class="stat-label">本週訂單</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" x-text="stats.this_month_orders || 0"></div>
+            <div class="stat-label">本月訂單</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" x-text="stats.total_members || 0"></div>
+            <div class="stat-label">總會員</div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+        <!-- Daily Orders Chart -->
+        <div class="chart-card">
+            <h4>📈 每日訂單 (最近7天)</h4>
+            <div class="bar-chart">
+                <template x-for="day in daily_orders" :key="day.date">
+                    <div class="bar-item">
+                        <div class="bar-value" x-text="day.count"></div>
+                        <div class="bar-container">
+                            <div class="bar-fill" 
+                                :style="`height: ${getMaxHeight(day.count, daily_orders)}%`"></div>
+                        </div>
+                        <div class="bar-label" x-text="day.day"></div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- templates/member/dashboard.html - Updated Weekly Chart Section -->
+
+        <!-- Weekly Orders Chart -->
+        <div class="chart-card">
+            <h4>📊 每週訂單</h4>
+            <div class="bar-chart">
+                <template x-for="week in weekly_orders" :key="week.week">
+                    <div class="bar-item">
+                        <div class="bar-value" x-text="week.count"></div>
+                        <div class="bar-container">
+                            <div class="bar-fill" 
+                                :style="`height: ${getMaxHeight(week.count, weekly_orders)}%`"
+                                style="background: linear-gradient(to top, #8b5cf6, #a78bfa);"></div>
+                        </div>
+                        <div class="bar-label" x-text="week.week"></div>
+                        <div class="bar-sub-label" x-text="week.date_range" style="font-size:0.6rem;color:#9ca3af;margin-top:2px;"></div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monthly Orders + Status -->
+    <div class="charts-row">
+        <!-- Monthly Orders Chart -->
+        <div class="chart-card">
+            <h4>📅 每月訂單 (最近6個月)</h4>
+            <div class="bar-chart">
+                <template x-for="month in monthly_orders" :key="month.month">
+                    <div class="bar-item">
+                        <div class="bar-value" x-text="month.count"></div>
+                        <div class="bar-container">
+                            <div class="bar-fill" 
+                                :style="`height: ${getMaxHeight(month.count, monthly_orders)}%`"
+                                style="background: linear-gradient(to top, #10b981, #34d399);"></div>
+                        </div>
+                        <div class="bar-label" x-text="month.month_name"></div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Status Distribution -->
+        <div class="chart-card">
+            <h4>📋 訂單狀態分佈</h4>
+            <div class="status-distribution">
+                <div class="status-item">
+                    <span class="status-label">待處理</span>
+                    <div class="status-bar-track">
+                        <div class="status-bar-fill" 
+                            :style="`width: ${getStatusPercentage('pending')}%`"
+                            style="background: #f59e0b;"></div>
+                    </div>
+                    <span class="status-count" x-text="status_counts.pending || 0"></span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">已確認</span>
+                    <div class="status-bar-track">
+                        <div class="status-bar-fill" 
+                            :style="`width: ${getStatusPercentage('confirmed')}%`"
+                            style="background: #3b82f6;"></div>
+                    </div>
+                    <span class="status-count" x-text="status_counts.confirmed || 0"></span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">進行中</span>
+                    <div class="status-bar-track">
+                        <div class="status-bar-fill" 
+                            :style="`width: ${getStatusPercentage('in_progress')}%`"
+                            style="background: #8b5cf6;"></div>
+                    </div>
+                    <span class="status-count" x-text="status_counts.in_progress || 0"></span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">已完成</span>
+                    <div class="status-bar-track">
+                        <div class="status-bar-fill" 
+                            :style="`width: ${getStatusPercentage('completed')}%`"
+                            style="background: #10b981;"></div>
+                    </div>
+                    <span class="status-count" x-text="status_counts.completed || 0"></span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">已取消</span>
+                    <div class="status-bar-track">
+                        <div class="status-bar-fill" 
+                            :style="`width: ${getStatusPercentage('cancelled')}%`"
+                            style="background: #ef4444;"></div>
+                    </div>
+                    <span class="status-count" x-text="status_counts.cancelled || 0"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="recent-orders">
+        <h4>📋 最近訂單</h4>
+        <div class="table-wrapper">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>訂單編號</th>
+                        <th>客戶名稱</th>
+                        <th>電話</th>
+                        <th>服務類型</th>
+                        <th>預約日期</th>
+                        <th>狀態</th>
+                        <th>建立時間</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="order in orders" :key="order.id">
+                        <tr>
+                            <td>#<span x-text="order.id"></span></td>
+                            <td x-text="order.customer || 'N/A'"></td>
+                            <td x-text="order.phone || 'N/A'"></td>
+                            <td x-text="order.service_type || 'N/A'"></td>
+                            <td x-text="order.booking_date || 'N/A'"></td>
+                            <td>
+                                <span class="status-badge-small" 
+                                    :class="'status-' + (order.status || 'pending')"
+                                    x-text="order.status || 'pending'"></span>
+                            </td>
+                            <td x-text="order.created_at || 'N/A'"></td>
+                        </tr>
+                    </template>
+                    <tr x-if="orders.length === 0">
+                        <td colspan="7" class="no-data">暫無訂單</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
+<!-- ⭐ Alpine.js from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js" defer></script>
+
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('dashboardApp', () => ({
+        // Data
+        stats: {},
+        orders: [],
+        daily_orders: [],
+        weekly_orders: [],
+        monthly_orders: [],
+        status_counts: {},
+        lastUpdated: '加載中...',
+        connectionStatus: 'connecting',
+        connectionStatusText: '連接中...',
+        
+        // Configuration
+        pollingInterval: 30000,
+        wsConnected: false,
+        reconnectAttempts: 0,
+        maxReconnectAttempts: 5,
+        
+        init() {
+            this.refreshData();
+            
+            this.interval = setInterval(() => {
+                if (!this.wsConnected) {
+                    console.log('🔄 Polling fallback: Refreshing data...');
+                    this.refreshData();
+                }
+            }, this.pollingInterval);
+            
+            this.connectWebSocket();
+        },
+        
+        connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}/ws/dashboard/`;
+            
+            try {
+                this.ws = new WebSocket(wsUrl);
+                
+                this.ws.onopen = () => {
+                    console.log('✅ WebSocket connected');
+                    this.wsConnected = true;
+                    this.connectionStatus = 'connected';
+                    this.connectionStatusText = '🟢 即時連線';
+                    this.reconnectAttempts = 0;
+                };
+                
+                this.ws.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        if (data.type === 'dashboard_update') {
+                            this.updateDashboard(data.data);
+                        }
+                    } catch (error) {
+                        console.error('Error parsing message:', error);
+                    }
+                };
+                
+                this.ws.onclose = () => {
+                    console.log('❌ WebSocket disconnected');
+                    this.wsConnected = false;
+                    this.connectionStatus = 'disconnected';
+                    this.connectionStatusText = '🟡 輪詢模式';
+                    this.reconnectWebSocket();
+                };
+                
+                this.ws.onerror = (error) => {
+                    console.error('WebSocket error:', error);
+                    this.ws.close();
+                };
+                
+            } catch (error) {
+                console.error('Failed to create WebSocket:', error);
+                this.connectionStatus = 'error';
+                this.connectionStatusText = '🔴 僅輪詢';
+            }
+        },
+        
+        reconnectWebSocket() {
+            if (this.reconnectAttempts < this.maxReconnectAttempts) {
+                this.reconnectAttempts++;
+                const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 10000);
+                console.log(`🔄 Reconnecting in ${delay/1000}s (attempt ${this.reconnectAttempts})`);
+                
+                setTimeout(() => {
+                    this.connectWebSocket();
+                }, delay);
+            } else {
+                console.log('❌ Max reconnect attempts reached - using polling only');
+                this.connectionStatus = 'error';
+                this.connectionStatusText = '🔴 僅輪詢';
+            }
+        },
+        
+        refreshData() {
+            fetch('/member/api/dashboard-data/', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                credentials: 'same-origin'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                this.updateDashboard(data);
+                if (!this.wsConnected) {
+                    console.log('📊 Dashboard updated via polling');
+                }
+            })
+            .catch(error => {
+                console.error('Error refreshing data:', error);
+                this.lastUpdated = '載入數據失敗';
+            });
+        },
+        
+        updateDashboard(data) {
+            if (data.stats) {
+                this.stats = data.stats;
+            }
+            if (data.recent_orders) {
+                this.orders = data.recent_orders;
+            }
+            if (data.daily_orders) {
+                this.daily_orders = data.daily_orders;
+            }
+            if (data.weekly_orders) {
+                this.weekly_orders = data.weekly_orders;
+            }
+            if (data.monthly_orders) {
+                this.monthly_orders = data.monthly_orders;
+            }
+            if (data.status_counts) {
+                this.status_counts = data.status_counts;
+            }
+            if (data.last_updated) {
+                this.lastUpdated = data.last_updated;
+            }
+        },
+        
+        // Helper functions for bar charts
+        getMaxHeight(value, data) {
+            if (!data || data.length === 0) return 0;
+            const max = Math.max(...data.map(d => d.count || 0));
+            if (max === 0) return 0;
+            return Math.max((value / max) * 100, 5);
+        },
+        
+        getStatusPercentage(status) {
+            const total = Object.values(this.status_counts).reduce((a, b) => a + b, 0);
+            if (total === 0) return 0;
+            return ((this.status_counts[status] || 0) / total * 100);
+        }
+    }));
+});
+</script>
 {% endblock %}
