@@ -1,114 +1,20 @@
-# member/views.py
-
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+# member/utils.py
 from django.utils import timezone
-from datetime import datetime, timedelta  # ⭐ FIXED: Added datetime import
-from django.contrib.auth.models import User
-from booking.models import Order
+from datetime import datetime, timedelta
+
 import logging
-from .utils import get_dashboard_data
 
 logger = logging.getLogger(__name__)
 
-# ============================================================
-# AUTHENTICATION VIEWS
-# ============================================================
-
-# 1. 註冊視圖
-def register_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "註冊成功！歡迎加入。")
-            # ⭐ KEEP: Redirect to home page
-            return redirect(reverse('home'))
-        else:
-            messages.error(request, "註冊失敗，請檢查輸入信息。")
-    else:
-        form = UserCreationForm()
-    # ⭐ KEEP: Use member/login.html
-    return render(request, 'member/login.html', {'form': form})
-
-
-# 2. 登錄視圖
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, f"歡迎回來，{username}！")
-                # ⭐ KEEP: Redirect to home page
-                return redirect(reverse('home'))
-        messages.error(request, "用戶名或密碼錯誤。")
-    else:
-        form = AuthenticationForm()
-    # ⭐ KEEP: Use member/login.html
-    return render(request, 'member/login.html', {'form': form})
-
-
-# 3. 登出視圖
-@csrf_exempt
-def logout_view(request):
-    logout(request)
-    messages.success(request, "您已成功登出。")
-    # ⭐ KEEP: Redirect to home page
-    return redirect(reverse('home'))
-
-
-# ============================================================
-# DASHBOARD VIEWS (Staff Only)
-# ============================================================
-
-# 4. 會員中心視圖（必須登錄才能訪問）
-@login_required
-def dashboard(request):
-    """Main dashboard view - Staff only"""
-    # ⭐ Only staff can access dashboard
-    if not request.user.is_staff:
-        messages.warning(request, '您沒有權限訪問管理儀表板。')
-        return redirect('home')
-    return render(request, 'member/dashboard.html')
-
-
-@login_required
-def get_dashboard_data(request):
+def get_dashboard_data():
     """
-    API endpoint for polling fallback.
-    Returns dashboard statistics as JSON.
-    Staff only - checks user is staff.
+    Get dashboard statistics for staff dashboard.
+    Returns a dictionary (not JsonResponse).
+    Used by: WebSocket consumer, signals, and API views.
     """
-    # Only allow staff to access this data
-    if not request.user.is_staff:
-        return JsonResponse({
-            'error': 'Access denied. Staff only.',
-            'stats': {
-                'total_members': 0,
-                'total_orders': 0,
-                'today_orders': 0,
-                'this_week_orders': 0,
-                'this_month_orders': 0,
-            },
-            'daily_orders': [],
-            'weekly_orders': [],
-            'monthly_orders': [],
-            'status_counts': {},
-            'recent_orders': [],
-            'last_updated': timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-        }, status=403)
-    
+    # ⭐ Import Django models INSIDE the function
+    from django.contrib.auth.models import User
+    from booking.models import Order  
     try:
         today = timezone.now().date()
         
@@ -127,22 +33,18 @@ def get_dashboard_data(request):
             created_at__lte=today_end
         ).count()
         
-        # ============ THIS WEEK ORDERS (Last 7 days) ============
+        # ============ THIS WEEK ORDERS ============
         week_ago = today - timedelta(days=7)
         week_start = datetime.combine(week_ago, datetime.min.time())
         week_start = timezone.make_aware(week_start) if not timezone.is_aware(week_start) else week_start
-        this_week_orders = Order.objects.filter(
-            created_at__gte=week_start
-        ).count()
+        this_week_orders = Order.objects.filter(created_at__gte=week_start).count()
         
         # ============ THIS MONTH ORDERS ============
         month_start = datetime(today.year, today.month, 1)
         month_start = timezone.make_aware(month_start) if not timezone.is_aware(month_start) else month_start
-        this_month_orders = Order.objects.filter(
-            created_at__gte=month_start
-        ).count()
+        this_month_orders = Order.objects.filter(created_at__gte=month_start).count()
         
-        # ============ DAILY ORDER COUNT (Last 7 days) ============
+        # ============ DAILY ORDERS (Last 7 days) ============
         daily_orders = []
         for i in range(6, -1, -1):
             date = today - timedelta(days=i)
@@ -162,7 +64,7 @@ def get_dashboard_data(request):
                 'day': date.strftime('%A')[:3]
             })
         
-        # ============ WEEKLY ORDER COUNT (Last 4 weeks) ============
+        # ============ WEEKLY ORDERS (Last 4 weeks) ============
         weekly_orders = []
         for i in range(3, -1, -1):
             week_start_date = today - timedelta(days=today.weekday() + (7 * i))
@@ -178,7 +80,6 @@ def get_dashboard_data(request):
                 created_at__lte=week_end_datetime
             ).count()
             
-            # ⭐ Better week labels
             week_number = (today - week_start_date).days // 7 + 1
             if week_number == 1:
                 week_label = "本週"
@@ -193,7 +94,7 @@ def get_dashboard_data(request):
                 'count': count
             })
         
-        # ============ MONTHLY ORDER COUNT (Last 6 months) ============
+        # ============ MONTHLY ORDERS (Last 6 months) ============
         monthly_orders = []
         for i in range(5, -1, -1):
             month = today.month - i
@@ -247,7 +148,7 @@ def get_dashboard_data(request):
                 'created_at': order.created_at.strftime('%Y-%m-%d %H:%M') if order.created_at else '',
             })
         
-        data = {
+        return {
             'stats': {
                 'total_members': total_members,
                 'total_orders': total_orders,
@@ -262,16 +163,9 @@ def get_dashboard_data(request):
             'recent_orders': recent_orders,
             'last_updated': timezone.now().strftime('%Y-%m-%d %H:%M:%S')
         }
-        
-        return JsonResponse(data)
-        
     except Exception as e:
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.error(f"Dashboard API error: {str(e)}")
-        
-        return JsonResponse({
-            'error': str(e),
+        logger.error(f"Dashboard data error: {str(e)}", exc_info=True)
+        return {
             'stats': {
                 'total_members': 0,
                 'total_orders': 0,
@@ -285,18 +179,4 @@ def get_dashboard_data(request):
             'status_counts': {},
             'recent_orders': [],
             'last_updated': timezone.now().strftime('%Y-%m-%d %H:%M:%S')
-        }, status=500)
-    
-@login_required
-def dashboard_api(request):  # ⭐ Renamed from get_dashboard_data
-    """API endpoint for polling fallback"""
-    if not request.user.is_staff:
-        return JsonResponse({'error': 'Access denied'}, status=403)
-    
-    try:
-        # ⭐ Use the utility function
-        data = get_dashboard_data()
-        return JsonResponse(data)
-    except Exception as e:
-        logger.error(f"Dashboard API error: {str(e)}")
-        return JsonResponse({'error': str(e)}, status=500)
+        }
