@@ -7,6 +7,7 @@
 
 {% block extra_css %}
 <style>
+/* Your existing CSS - keeping it the same */
 .dashboard-container {
     padding: 20px;
     max-width: 1400px;
@@ -75,7 +76,6 @@
     margin-bottom: 20px;
 }
 
-/* Stats Grid */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -122,7 +122,6 @@
     margin-top: 5px;
 }
 
-/* Charts Row */
 .charts-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -143,7 +142,6 @@
     color: #1f2937;
 }
 
-/* Bar Chart */
 .bar-chart {
     display: flex;
     justify-content: space-around;
@@ -184,6 +182,12 @@
     margin-top: 5px;
 }
 
+.bar-sub-label {
+    font-size: 0.6rem;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
 .bar-value {
     font-size: 0.75rem;
     font-weight: 600;
@@ -191,7 +195,6 @@
     margin-bottom: 2px;
 }
 
-/* Status Distribution */
 .status-distribution {
     display: flex;
     flex-direction: column;
@@ -231,7 +234,6 @@
     font-size: 0.9rem;
 }
 
-/* Recent Orders */
 .recent-orders {
     background: white;
     padding: 20px;
@@ -346,7 +348,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="dashboard-container" x-data="dashboardApp()" x-init="init()">
+<div class="dashboard-container" x-data="dashboardApp" x-init="init()">
     <!-- Header -->
     <div class="dashboard-header">
         <h1>📊 管理儀表板</h1>
@@ -354,7 +356,7 @@
             <span class="status-badge" 
                 :class="connectionStatus"
                 x-text="connectionStatusText"></span>
-            <button @click="refreshData()" class="btn-refresh">
+            <button @click="manualRefresh()" class="btn-refresh">
                 🔄 刷新
             </button>
         </div>
@@ -407,8 +409,6 @@
             </div>
         </div>
 
-        <!-- templates/member/dashboard.html - Updated Weekly Chart Section -->
-
         <!-- Weekly Orders Chart -->
         <div class="chart-card">
             <h4>📊 每週訂單</h4>
@@ -422,7 +422,7 @@
                                 style="background: linear-gradient(to top, #8b5cf6, #a78bfa);"></div>
                         </div>
                         <div class="bar-label" x-text="week.week"></div>
-                        <div class="bar-sub-label" x-text="week.date_range" style="font-size:0.6rem;color:#9ca3af;margin-top:2px;"></div>
+                        <div class="bar-sub-label" x-text="week.date_range"></div>
                     </div>
                 </template>
             </div>
@@ -544,11 +544,14 @@
 </div>
 
 <!-- ⭐ Alpine.js from CDN -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js" defer></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
 
+<!-- ⭐ Alpine Component Definition -->
 <script>
-document.addEventListener('alpine:init', () => {
-    Alpine.data('dashboardApp', () => ({
+// Define the component as a GLOBAL function (not inside alpine:init)
+// This ensures it's available when Alpine initializes
+window.dashboardApp = function() {
+    return {
         // Data
         stats: {},
         orders: [],
@@ -565,23 +568,32 @@ document.addEventListener('alpine:init', () => {
         wsConnected: false,
         reconnectAttempts: 0,
         maxReconnectAttempts: 5,
+        ws: null,
+        interval: null,
         
         init() {
+            console.log('🚀 Dashboard init() called');
+            console.log('🔍 Alpine version:', typeof Alpine !== 'undefined' ? Alpine.version : 'Not loaded');
+            
             this.refreshData();
             
+            // Polling fallback
             this.interval = setInterval(() => {
                 if (!this.wsConnected) {
-                    console.log('🔄 Polling fallback: Refreshing data...');
+                    console.log('🔄 Polling fallback...');
                     this.refreshData();
                 }
             }, this.pollingInterval);
             
             this.connectWebSocket();
+            
+            console.log('✅ Dashboard initialization complete!');
         },
         
         connectWebSocket() {
             const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
             const wsUrl = `${protocol}//${window.location.host}/ws/dashboard/`;
+            console.log('🔌 Connecting to WebSocket:', wsUrl);
             
             try {
                 this.ws = new WebSocket(wsUrl);
@@ -595,13 +607,14 @@ document.addEventListener('alpine:init', () => {
                 };
                 
                 this.ws.onmessage = (event) => {
+                    console.log('📨 WebSocket message received!');
                     try {
                         const data = JSON.parse(event.data);
-                        if (data.type === 'dashboard_update') {
-                            this.updateDashboard(data.data);
-                        }
+                        console.log('✅ Parsed data keys:', Object.keys(data));
+                        this.updateDashboard(data);
+                        console.log('✅ Dashboard updated via WebSocket!');
                     } catch (error) {
-                        console.error('Error parsing message:', error);
+                        console.error('❌ Error parsing message:', error);
                     }
                 };
                 
@@ -614,12 +627,12 @@ document.addEventListener('alpine:init', () => {
                 };
                 
                 this.ws.onerror = (error) => {
-                    console.error('WebSocket error:', error);
+                    console.error('⚠️ WebSocket error:', error);
                     this.ws.close();
                 };
                 
             } catch (error) {
-                console.error('Failed to create WebSocket:', error);
+                console.error('❌ Failed to create WebSocket:', error);
                 this.connectionStatus = 'error';
                 this.connectionStatusText = '🔴 僅輪詢';
             }
@@ -629,7 +642,7 @@ document.addEventListener('alpine:init', () => {
             if (this.reconnectAttempts < this.maxReconnectAttempts) {
                 this.reconnectAttempts++;
                 const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 10000);
-                console.log(`🔄 Reconnecting in ${delay/1000}s (attempt ${this.reconnectAttempts})`);
+                console.log(`🔄 Reconnecting in ${delay/1000}s (attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts})`);
                 
                 setTimeout(() => {
                     this.connectWebSocket();
@@ -641,7 +654,18 @@ document.addEventListener('alpine:init', () => {
             }
         },
         
+        manualRefresh() {
+            console.log('🔄 Manual refresh triggered...');
+            if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+                this.ws.send(JSON.stringify({ action: 'refresh' }));
+                console.log('📤 Refresh command sent via WebSocket');
+            } else {
+                this.refreshData();
+            }
+        },
+        
         refreshData() {
+            console.log('🔄 Fetching data via HTTP...');
             fetch('/member/api/dashboard-data/', {
                 method: 'GET',
                 headers: {
@@ -656,23 +680,28 @@ document.addEventListener('alpine:init', () => {
                 return response.json();
             })
             .then(data => {
+                console.log('✅ HTTP data received');
                 this.updateDashboard(data);
                 if (!this.wsConnected) {
                     console.log('📊 Dashboard updated via polling');
                 }
             })
             .catch(error => {
-                console.error('Error refreshing data:', error);
+                console.error('❌ Error refreshing data:', error);
                 this.lastUpdated = '載入數據失敗';
             });
         },
         
         updateDashboard(data) {
+            console.log('📊 Updating dashboard with data keys:', Object.keys(data));
+            
             if (data.stats) {
                 this.stats = data.stats;
+                console.log('✅ Stats updated:', this.stats);
             }
             if (data.recent_orders) {
                 this.orders = data.recent_orders;
+                console.log('✅ Orders updated:', this.orders.length);
             }
             if (data.daily_orders) {
                 this.daily_orders = data.daily_orders;
@@ -689,6 +718,8 @@ document.addEventListener('alpine:init', () => {
             if (data.last_updated) {
                 this.lastUpdated = data.last_updated;
             }
+            
+            console.log('✅ Dashboard update complete!');
         },
         
         // Helper functions for bar charts
@@ -704,7 +735,23 @@ document.addEventListener('alpine:init', () => {
             if (total === 0) return 0;
             return ((this.status_counts[status] || 0) / total * 100);
         }
-    }));
+    };
+};
+
+// Register the component with Alpine
+document.addEventListener('alpine:init', () => {
+    console.log('🔴 alpine:init event fired!');
+    Alpine.data('dashboardApp', window.dashboardApp);
+    console.log('✅ Alpine component "dashboardApp" registered!');
 });
+
+// Fallback: Register immediately if Alpine is already loaded
+if (typeof Alpine !== 'undefined' && Alpine.version) {
+    console.log('🔴 Alpine already loaded, registering component directly...');
+    if (!Alpine.data('dashboardApp')) {
+        Alpine.data('dashboardApp', window.dashboardApp);
+        console.log('✅ Component registered directly!');
+    }
+}
 </script>
 {% endblock %}
