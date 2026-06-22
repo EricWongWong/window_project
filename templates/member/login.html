@@ -1,58 +1,122 @@
 {% extends 'base.html' %}
-{% block title %}會員登入 - 香港驗窗維修工程{% endblock %}
+
+{% block title %}登入 - 香港驗窗維修工程{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-4">
-        <div class="card p-4 mt-5">
-            <h2 class="text-center mb-4" style="color: #003366;">會員登入</h2>
+    <div class="col-md-6 col-lg-5">
+        <div class="card p-4 mt-4 shadow-sm">
             
-            <!-- 顯示 Django 內置的錯誤提示信息（如密碼錯誤） -->
+            <!-- ⭐ Navigation Tabs - Always Visible -->
+            <div style="display: flex; border-bottom: 2px solid #dee2e6; margin-bottom: 20px;">
+                <a href="{% url 'member:login' %}" 
+                   style="flex: 1; text-align: center; padding: 10px 0; text-decoration: none; color: #003366; background: #ffffff; border: 1px solid #dee2e6; border-bottom: 3px solid #003366; border-radius: 8px 8px 0 0; font-weight: 600; margin-right: 4px; transition: all 0.3s ease;">
+                    登入
+                </a>
+                <a href="{% url 'member:register' %}" 
+                   style="flex: 1; text-align: center; padding: 10px 0; text-decoration: none; color: #6c757d; background: #f8f9fa; border: 1px solid #dee2e6; border-bottom: none; border-radius: 8px 8px 0 0; font-weight: 500; transition: all 0.3s ease;">
+                    註冊
+                </a>
+            </div>
+            
+            <h2 class="text-center mb-4" style="color: #003366; font-weight: 700; font-size: 1.5rem;">
+                會員登入
+            </h2>
+
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} text-center" role="alert">
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
                         {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 {% endfor %}
             {% endif %}
 
             <form method="POST">
                 {% csrf_token %}
-                <!-- 使用 Bootstrap 樣式渲染內置表單 -->
-                {% for field in form %}
-                    <div class="mb-3">
-                        <label class="form-label fw-bold" style="color: #003366;">{{ field.label }}</label>
-                        {{ field }}
-                        {% if field.errors %}
-                            <div class="text-danger small">{{ field.errors|striptags }}</div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-primary w-100 mt-3" style="background-color: #003366;">安全登入</button>
+                
+                <!-- Username -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold" style="color: #003366; font-size: 0.9rem;">
+                        用戶名
+                    </label>
+                    <input type="text" name="username" class="form-control" required 
+                           placeholder="請輸入用戶名" 
+                           style="border-radius: 6px; border: 1.5px solid #e5e7eb; padding: 10px 12px;">
+                </div>
+                
+                <!-- Password -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold" style="color: #003366; font-size: 0.9rem;">
+                        密碼
+                    </label>
+                    <input type="password" name="password" class="form-control" required 
+                           placeholder="請輸入密碼" 
+                           style="border-radius: 6px; border: 1.5px solid #e5e7eb; padding: 10px 12px;">
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100" 
+                    style="background-color: #003366; border: none; border-radius: 6px; padding: 12px; font-weight: 600; font-size: 1rem;">
+                    登入
+                </button>
             </form>
             
             <div class="text-center mt-4">
-                <p class="mb-0">還沒有帳號？ <a href="{% url 'member:register' %}" class="fw-bold" style="color: #003366;">立即註冊</a></p>
+                <p class="mb-0" style="color: #6c757d; font-size: 0.95rem;">
+                    還沒有帳號？ 
+                    <a href="{% url 'member:register' %}" class="fw-bold" 
+                       style="color: #003366; text-decoration: none;">
+                        立即註冊 →
+                    </a>
+                </p>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    /* 讓 Django 原生表單輸入框完美適應 Bootstrap */
-    form input[type="text"], form input[type="password"] {
-        display: block;
-        width: 100%;
-        padding: 0.375rem 0.75rem;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.5;
-        color: #212529;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #ced4da;
-        border-radius: 0.375rem;
-        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .form-control {
+        border-radius: 8px;
+        border: 1.5px solid #e5e7eb;
+        padding: 10px 14px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #003366;
+        box-shadow: 0 0 0 0.2rem rgba(0, 51, 102, 0.15);
+    }
+    
+    .btn-primary {
+        background-color: #003366;
+        border: none;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-primary:hover {
+        background-color: #002244 !important;
+    }
+    
+    .alert {
+        border-radius: 8px;
+        border: none;
+        font-size: 0.9rem;
+    }
+    
+    .alert-success {
+        background: #d1fae5;
+        color: #065f46;
+    }
+    
+    .alert-danger {
+        background: #fee2e2;
+        color: #991b1b;
     }
 </style>
 {% endblock %}

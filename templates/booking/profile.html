@@ -1,16 +1,28 @@
 {% extends 'base.html' %}
 
-{% block title %}My Profile{% endblock %}
+{% block title %}My Profile - 香港驗窗維修工程{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6 mx-auto">
+        <div class="col-md-8 mx-auto">
             <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="fas fa-user-circle"></i> My Profile</h4>
+                
+                <!-- Card Header -->
+                <div class="card-header bg-white py-3" style="border-bottom: 2px solid #003366;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0" style="color: #003366;">
+                            <i class="fas fa-user-circle me-2"></i>My Profile
+                        </h4>
+                        <span class="badge bg-success">
+                            <i class="fas fa-check-circle me-1"></i>已登入
+                        </span>
+                    </div>
                 </div>
+                
                 <div class="card-body">
+                    
+                    <!-- Display Messages -->
                     {% if messages %}
                         {% for message in messages %}
                             <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
@@ -20,45 +32,198 @@
                         {% endfor %}
                     {% endif %}
 
-                    <form method="post">
+                    <form method="post" action="{% url 'profile' %}">
                         {% csrf_token %}
+                        
+                        <!-- Username (read-only) -->
                         <div class="mb-3">
-                            <label class="form-label">Username</label>
-                            <input type="text" class="form-control" value="{{ user.username }}" disabled>
-                            <small class="text-muted">Username cannot be changed</small>
+                            <label class="form-label fw-bold" style="color: #003366;">
+                                <i class="fas fa-user me-1"></i>Username
+                            </label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="{{ user.username }}" disabled>
+                                <span class="input-group-text bg-light text-muted small">
+                                    <i class="fas fa-lock me-1"></i>不可更改
+                                </span>
+                            </div>
                         </div>
+
+                        <!-- First Name & Last Name -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">First Name</label>
-                                <input type="text" name="first_name" class="form-control" value="{{ user.first_name }}">
+                                <label class="form-label fw-bold" style="color: #003366;">
+                                    <i class="fas fa-user-tag me-1"></i>First Name
+                                </label>
+                                <input type="text" name="first_name" class="form-control" 
+                                       value="{{ user.first_name|default:'' }}" 
+                                       placeholder="請輸入名字">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Last Name</label>
-                                <input type="text" name="last_name" class="form-control" value="{{ user.last_name }}">
+                                <label class="form-label fw-bold" style="color: #003366;">
+                                    <i class="fas fa-user-tag me-1"></i>Last Name
+                                </label>
+                                <input type="text" name="last_name" class="form-control" 
+                                       value="{{ user.last_name|default:'' }}" 
+                                       placeholder="請輸入姓氏">
                             </div>
                         </div>
+
+                        <!-- Email Address -->
                         <div class="mb-3">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                            <label class="form-label fw-bold" style="color: #003366;">
+                                <i class="fas fa-envelope me-1"></i>Email Address
+                            </label>
+                            <input type="email" name="email" class="form-control" 
+                                   value="{{ user.email|default:'' }}" 
+                                   placeholder="your@email.com" required>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a href="{% url 'home' %}" class="btn btn-secondary">
+                                <i class="fas fa-times me-1"></i>Cancel
+                            </a>
+                            <div>
+                                <a href="{% url 'change_password' %}" class="btn btn-outline-warning me-2">
+                                    <i class="fas fa-key me-1"></i>Change Password
+                                </a>
+                                <button type="submit" class="btn btn-primary" style="background-color: #003366;">
+                                    <i class="fas fa-save me-1"></i>Save Changes
+                                </button>
+                            </div>
                         </div>
                     </form>
-                    <hr>
-                    <div class="text-center">
-                        <a href="{% url 'change_password' %}" class="btn btn-outline-warning">
-                            <i class="fas fa-key"></i> Change Password
-                        </a>
+
+                </div>
+                
+                <!-- Card Footer - Member Info -->
+                <div class="card-footer bg-light">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <small class="text-muted">
+                                <i class="fas fa-calendar-plus me-1"></i>
+                                Member since: {{ user.date_joined|date:"F j, Y" }}
+                            </small>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                Last login: {{ user.last_login|date:"F j, Y H:i"|default:"從未登入" }}
+                            </small>
+                        </div>
                     </div>
                 </div>
-                <div class="card-footer text-muted">
-                    <small>Member since: {{ user.date_joined|date:"F j, Y" }}</small><br>
-                    <small>Last login: {{ user.last_login|date:"F j, Y H:i" }}</small>
-                </div>
+                
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .card-header {
+        border-radius: 12px 12px 0 0;
+    }
+    
+    .card-footer {
+        border-radius: 0 0 12px 12px;
+    }
+    
+    .form-control {
+        border-radius: 8px;
+        border: 1.5px solid #e5e7eb;
+        padding: 10px 14px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #003366;
+        box-shadow: 0 0 0 0.2rem rgba(0, 51, 102, 0.15);
+    }
+    
+    .form-control:disabled {
+        background-color: #f8f9fa;
+    }
+    
+    .input-group-text {
+        font-size: 0.8rem;
+        background-color: #f8f9fa;
+    }
+    
+    .btn-primary {
+        background-color: #003366;
+        border: none;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-primary:hover {
+        background-color: #002244 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
+    }
+    
+    .btn-outline-warning:hover {
+        background-color: #ffc107;
+        color: #000;
+    }
+    
+    .alert {
+        border-radius: 8px;
+        border: none;
+        font-size: 0.9rem;
+    }
+    
+    .alert-success {
+        background: #d1fae5;
+        color: #065f46;
+    }
+    
+    .alert-danger {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+    
+    .alert-warning {
+        background: #fef3c7;
+        color: #92400e;
+    }
+    
+    .alert-info {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+    
+    .badge {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    @media (max-width: 768px) {
+        .d-flex.justify-content-between.align-items-center {
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .d-flex.justify-content-between.align-items-center > div {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .d-flex.justify-content-between.align-items-center .btn {
+            width: 100%;
+        }
+        
+        .col-md-6.text-md-end {
+            text-align: left !important;
+            margin-top: 5px;
+        }
+    }
+</style>
 {% endblock %}

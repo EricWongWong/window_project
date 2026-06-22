@@ -24,19 +24,34 @@ logger = logging.getLogger(__name__)
 # 1. 註冊視圖
 def register_view(request):
     if request.method == 'POST':
+        # ⭐ Get email from POST data
+        email = request.POST.get('email')
         form = UserCreationForm(request.POST)
         if form.is_valid():
+            # ⭐ Create user but don't save yet
+            user = form.save(commit=False)
+            user.email = email  # ⭐ Save email
             user = form.save()
             login(request, user)
             messages.success(request, "註冊成功！歡迎加入。")
             # ⭐ KEEP: Redirect to home page
             return redirect(reverse('home'))
         else:
-            messages.error(request, "註冊失敗，請檢查輸入信息。")
+            # Show detailed error messages
+            for field, errors in form.errors.items():
+                for error in errors:
+                    if field == 'username':
+                        messages.error(request, f"用戶名問題: {error}")
+                    elif field == 'password1':
+                        messages.error(request, f"密碼問題: {error}")
+                    elif field == 'password2':
+                        messages.error(request, f"密碼確認問題: {error}")
+                    else:
+                        messages.error(request, error)
     else:
         form = UserCreationForm()
     # ⭐ KEEP: Use member/login.html
-    return render(request, 'member/login.html', {'form': form})
+    return render(request, 'member/register.html', {'form': form})
 
 
 # 2. 登錄視圖
