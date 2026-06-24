@@ -2,7 +2,7 @@
 
 ## Quick Start
 
-See [INSTALLATION.md](INSTALLATION.md) for setup instructions.
+See [INSTALLATION.md](installation.md) for setup instructions.
 
 ## Documentation
 
