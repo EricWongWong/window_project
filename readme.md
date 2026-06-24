@@ -7,7 +7,7 @@ See [INSTALLATION.md](installation.md) for setup instructions.
 ## Documentation
 
 - [UML Diagrams](docs/uml.md)
-- [Presentation](docs/Python网站框架开发报告(ppt).pdf)
+- [Presentation](docs/Python網站框架開發專案報告(ppt).pdf)
 - [Change Log](changelog.md)
 
 ## Remark
